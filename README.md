@@ -15,9 +15,12 @@ Astro 仙人掌 是一个基于 Astro 框架的博客主题，使用 Astro 和 T
 
 ## 快速开始 🚀
 
+点击 Fork 按钮，复制本项目到你的GitHub 仓库，然后点击 Code 按钮，复制项目地址。
 
 ```bash
+git clone https://github.com/your-username/astro-theme-cactus-zh-cn.git
 
+cd astro-theme-cactus-zh-cn
 
 pnpm install
 ```
