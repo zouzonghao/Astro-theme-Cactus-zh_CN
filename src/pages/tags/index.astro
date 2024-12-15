@@ -1,0 +1,35 @@
+---
+import { getAllPosts, getUniqueTagsWithCount } from "@/data/post";
+import PageLayout from "@/layouts/Base.astro";
+
+const allPosts = await getAllPosts();
+const allTags = getUniqueTagsWithCount(allPosts);
+
+const meta = {
+	description: "A list of all the topics I've written about in my posts",
+	title: "All Tags",
+};
+---
+
+<PageLayout meta={meta}>
+	<h1 class="title mb-6">全部标签</h1>
+	<ul class="flex flex-wrap gap-4">
+		{
+			// allTags.map(([tag, val]) => (
+			allTags.map(([tag, _]) => (
+				<li class="flex items-center gap-x-2">
+					<a
+						class="tx-lg cactus-link inline-block text-base"
+						data-astro-prefetch
+						href={`/tags/${tag}/`}
+						title={`View posts with the tag: ${tag}`}
+					>
+						&#35;{tag}
+					</a>
+					{/* 修改：隐藏标签博客数 */}
+					{/* <span class="inline-block">- {val}篇</span> */}
+				</li>
+			))
+		}
+	</ul>
+</PageLayout>

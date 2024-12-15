@@ -1,0 +1,38 @@
+---
+import type { PaginationLink } from "@/types";
+
+interface Props {
+	nextUrl?: PaginationLink;
+	prevUrl?: PaginationLink;
+}
+
+const { nextUrl, prevUrl } = Astro.props;
+---
+
+{
+	(prevUrl || nextUrl) && (
+		// 修改：翻页
+		<nav class="mt-8 flex items-center gap-x-4 font-bold text-red-700">
+			{prevUrl && (
+				<a
+					class="me-auto py-2 underline-offset-2 sm:hover:underline"
+					data-astro-prefetch
+					href={prevUrl.url}
+				>
+					{prevUrl.srLabel && <span class="sr-only">{prevUrl.srLabel}</span>}
+					{prevUrl.text ? prevUrl.text : "Previous"}
+				</a>
+			)}
+			{nextUrl && (
+				<a
+					class="ms-auto py-2 underline-offset-2 sm:hover:underline"
+					data-astro-prefetch
+					href={nextUrl.url}
+				>
+					{nextUrl.srLabel && <span class="sr-only">{nextUrl.srLabel}</span>}
+					{nextUrl.text ? nextUrl.text : "Next"}
+				</a>
+			)}
+		</nav>
+	)
+}
