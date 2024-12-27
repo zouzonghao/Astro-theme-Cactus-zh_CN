@@ -43,22 +43,24 @@ const note = defineCollection({
 			// .datetime({ offset: true }) // Ensures ISO 8601 format with offsets allowed (e.g. "2024-01-01T00:00:00Z" and "2024-01-01T00:00:00+02:00")
 			// .transform((val) => new Date(val)),
       .refine((val) => {
-				// 修改：解析自定义格式的日期字符串
-				const datePattern = /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$/;
-				return datePattern.test(val);
-			}, "Invalid date format. Expected YYYY-MM-DD HH:mm")
-			.transform((val) => {
-				const [datePart, timePart] = val.split(" ");
-				if (!datePart || !timePart) {
-					throw new Error("Invalid date format. Expected YYYY-MM-DD HH:mm");
-				}
-				const [year, month, day] = datePart.split("-");
-				const [hour, minute] = timePart.split(":");
-				if (!year || !month || !day || !hour || !minute) {
-					throw new Error("Invalid date format. Expected YYYY-MM-DD HH:mm");
-				}
-				return new Date(Number(year), Number(month) - 1, Number(day), Number(hour), Number(minute));
-			}),
+        // 修改：解析自定义格式的日期字符串，兼容 "YYYY-MM-DD HH:mm" 和 "YYYY-MM-DDTHH:mm"
+        const datePattern = /^\d{4}-\d{2}-\d{2}[T ]\d{2}:\d{2}$/;
+        return datePattern.test(val);
+      }, "Invalid date format. Expected YYYY-MM-DD HH:mm or YYYY-MM-DDTHH:mm")
+      .transform((val) => {
+        // 统一处理分隔符，将 "T" 替换为空格
+        const normalizedVal = val.replace("T", " ");
+        const [datePart, timePart] = normalizedVal.split(" ");
+        if (!datePart || !timePart) {
+          throw new Error("Invalid date format. Expected YYYY-MM-DD HH:mm or YYYY-MM-DDTHH:mm");
+        }
+        const [year, month, day] = datePart.split("-");
+        const [hour, minute] = timePart.split(":");
+        if (!year || !month || !day || !hour || !minute) {
+          throw new Error("Invalid date format. Expected YYYY-MM-DD HH:mm or YYYY-MM-DDTHH:mm");
+        }
+        return new Date(Number(year), Number(month) - 1, Number(day), Number(hour), Number(minute));
+      }),
 	}),
 });
 

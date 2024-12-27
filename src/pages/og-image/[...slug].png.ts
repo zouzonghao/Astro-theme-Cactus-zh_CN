@@ -7,6 +7,7 @@ import { Resvg } from "@resvg/resvg-js";
 import type { APIContext, InferGetStaticPropsType } from "astro";
 import satori, { type SatoriOptions } from "satori";
 import { html } from "satori-html";
+export const prerender = true;
 
 const ogOptions: SatoriOptions = {
 	// debug: true,

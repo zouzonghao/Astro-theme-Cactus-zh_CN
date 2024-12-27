@@ -1,0 +1,67 @@
+backend:
+  name: github
+  branch: main # change this to your branch
+  repo: example/cactus # 1、change this to your repo
+  site_domain: example.com # 2、change this to your domain
+  base_url: https://example.com # 3、change this to your prod URL
+  auth_endpoint: oauth # the oauth route provided by the integration
+
+collections:
+  - name: "note"
+    label: "笔记"
+    folder: "src/content/note"
+    create: true
+    slug: "{{year}}.{{month}}.{{day}}_{{slug}}"
+    fields:
+      - { label: "标题", name: "title", widget: "string", required: true }
+      - {
+          label: "简介",
+          name: "description",
+          widget: "string",
+          default: "这是一篇有意思的文章",
+          required: true,
+        }
+      - {
+          label: "发布日期",
+          name: "publishDate",
+          widget: "datetime",
+          date_format: "YYYY-MM-DD",
+          time_format: "HH:mm",
+          required: true,
+        }
+      - { label: "正文", name: "body", widget: "markdown" }
+
+  - name: "post"
+    label: "博文"
+    folder: "src/content/post"
+    create: true
+    slug: "{{year}}.{{month}}.{{day}}_{{slug}}"
+    fields:
+      - { label: "标题", name: "title", widget: "string", required: true }
+      - {
+          label: "简介",
+          name: "description",
+          widget: "string",
+          default: "这是一篇有意思的文章",
+          required: true,
+        }
+      - {
+          label: "发布日期",
+          name: "publishDate",
+          widget: "datetime",
+          date_format: "YYYY-MM-DD",
+          required: true,
+        }
+      - { label: "标签", name: "tags", widget: "list", required: true }
+      - {
+          label: "ogImage",
+          name: "ogImage",
+          widget: "string",
+          default: "/social-card.avif",
+          required: true,
+        }
+      - { label: "正文", name: "body", widget: "markdown" }
+
+media_folder: "src/assets/images" # 文件将被存储在仓库中的位置
+public_folder: "/assets/images" # 上传媒体文件的 src 属性
+
