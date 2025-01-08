@@ -1,6 +1,6 @@
 ---
 import { type CollectionEntry, render } from "astro:content";
-import Comments from "@components/Comment";
+import Comment from '../components/Comment.tsx';
 import Masthead from "@/components/blog/Masthead.astro";
 import TOC from "@/components/blog/TOC.astro";
 import WebMentions from "@/components/blog/webmentions/index.astro";
@@ -17,6 +17,7 @@ const socialImage = ogImage ?? `/og-image/${post.id}.png`;
 const articleDate = updatedDate?.toISOString() ?? publishDate.toISOString();
 const { headings } = await render(post);
 ---
+<!-- 使用 client:only 指令 -->
 <Comments client:only="react" />
 <BaseLayout
 	meta={{
