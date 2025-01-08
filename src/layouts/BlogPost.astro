@@ -1,6 +1,6 @@
 ---
 import { type CollectionEntry, render } from "astro:content";
-
+import Comment from "@components/Comment.astro";
 import Masthead from "@/components/blog/Masthead.astro";
 import TOC from "@/components/blog/TOC.astro";
 import WebMentions from "@/components/blog/webmentions/index.astro";
@@ -59,6 +59,8 @@ const { headings } = await render(post);
 	</button>
 </BaseLayout>
 
+<!-- 引入评论框 -->
+<Comment />
 <script>
 	const scrollBtn = document.getElementById("to-top-btn") as HTMLButtonElement;
 	const targetHeader = document.getElementById("blog-hero") as HTMLDivElement;
