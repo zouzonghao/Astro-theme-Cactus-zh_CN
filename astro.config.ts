@@ -22,6 +22,8 @@ import rehypeUnwrapImages from "rehype-unwrap-images";
 
 import decapCmsOauth from "astro-decap-cms-oauth";
 
+import react from "@astrojs/react";
+
 // https://astro.build/config
 export default defineConfig({
   output: 'server',
@@ -34,7 +36,7 @@ export default defineConfig({
 }), tailwind({
         applyBaseStyles: false,
         nesting: true,
-		}), sitemap(), mdx(), robotsTxt(), webmanifest({
+        }), sitemap(), mdx(), robotsTxt(), webmanifest({
         // See: https://github.com/alextim/astro-lib/blob/main/packages/astro-webmanifest/README.md
         /**
          * required
@@ -73,7 +75,7 @@ export default defineConfig({
             insertThemeColorMeta: false,
             insertManifestLink: false,
         },
-		}), decapCmsOauth()],
+        }), decapCmsOauth(), react()],
     markdown: {
         rehypePlugins: [
             [
