@@ -1,15 +1,15 @@
 ---
-const pathname = decodeURIComponent(Astro.url.pathname || ""); //½âÂë
+const pathname = decodeURIComponent(Astro.url.pathname || ""); //Â½Ã¢Ã‚Ã«
 const postName = pathname?.split("/").pop();
 const { GISCUS_REPO, GISCUS_REPO_ID, GISCUS_CATEGORY_ID, GISCUS_lang } =
   import\u002Emeta.env;
 ---
 
 <meta
-  data-giscus_repo={GISCUS_REPO}
-  data-giscus_repo_id={GISCUS_REPO_ID}
-  data-giscus_category_id={GISCUS_CATEGORY_ID}
-  data-giscus_lang={GISCUS_lang}
+  data-giscus_repo=faust6312/astroblog
+  data-giscus_repo_id=R_kgDONnB1Tg
+  data-giscus_category_id=DIC_kwDONnB1Ts4Cl1O0
+  data-giscus_lang=zh-CN
   id="giscus-meta"
 />
 <meta property={`og:${postName}`} />
