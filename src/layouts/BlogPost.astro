@@ -17,7 +17,7 @@ const socialImage = ogImage ?? `/og-image/${post.id}.png`;
 const articleDate = updatedDate?.toISOString() ?? publishDate.toISOString();
 const { headings } = await render(post);
 ---
-
+<Comment />
 <BaseLayout
 	meta={{
 		articleDate,
@@ -58,9 +58,6 @@ const { headings } = await render(post);
 		</svg>
 	</button>
 </BaseLayout>
-
-<!-- 引入评论框 -->
-<Comment />
 <script>
 	const scrollBtn = document.getElementById("to-top-btn") as HTMLButtonElement;
 	const targetHeader = document.getElementById("blog-hero") as HTMLDivElement;
