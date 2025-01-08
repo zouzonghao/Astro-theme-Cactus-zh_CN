@@ -17,8 +17,7 @@ const socialImage = ogImage ?? `/og-image/${post.id}.png`;
 const articleDate = updatedDate?.toISOString() ?? publishDate.toISOString();
 const { headings } = await render(post);
 ---
-<!-- 使用 client:only 指令 -->
-<Comments client:only="react" />
+
 <BaseLayout
 	meta={{
 		articleDate,
@@ -59,6 +58,8 @@ const { headings } = await render(post);
 		</svg>
 	</button>
 </BaseLayout>
+<!-- 使用 client:only 指令 -->
+<Comments client:only="react" />
 <script>
 	const scrollBtn = document.getElementById("to-top-btn") as HTMLButtonElement;
 	const targetHeader = document.getElementById("blog-hero") as HTMLDivElement;
