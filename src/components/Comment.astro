@@ -2,7 +2,7 @@
 const pathname = decodeURIComponent(Astro.url.pathname || ""); //解码
 const postName = pathname?.split("/").pop();
 const { GISCUS_REPO, GISCUS_REPO_ID, GISCUS_CATEGORY_ID, GISCUS_lang } =
-  import\u002Emeta.env;
+  import.meta.env;
 ---
 
 <meta
