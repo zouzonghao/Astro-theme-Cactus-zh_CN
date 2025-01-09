@@ -7,7 +7,7 @@ tags: ["astro"]
 
 前几天用astro搭建好了本博客，感觉缺点什么，想起来是没有评论功能，遂有了本文。评论插件用的是giscus，是用GitHub Discussions存储的，也不会丢失，随便选一个仓库就行了。
 
-# 配置giscus
+## 配置giscus
 
 首先，对你的仓库有一些前置要求：
 - 必须是 [公开的 GitHub 仓库](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/managing-repository-settings/setting-repository-visibility#making-a-repository-public)
@@ -76,7 +76,7 @@ tags: ["astro"]
 
 ```
 
-# 配置主题亮暗切换
+## 配置主题亮暗切换
 
 由于博客网站是可以切换黑暗/明亮主题的，所以我们这里安装了 @giscus/react。
 
