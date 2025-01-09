@@ -1,7 +1,7 @@
 ---
 title: "astro添加评论功能"
 description: "This post showcases using the markdown admonition feature in Astro Cactus"
-publishDate: "9 Jan 2024"
+publishDate: "9 Jan 2025"
 tags: ["astro"]
 ---
 
