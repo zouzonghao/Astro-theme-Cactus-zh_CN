@@ -32,7 +32,7 @@ const { headings } = await render(post);
 			<div id="blog-hero"><Masthead content={post} /></div>
 			<!-- 修改：博文宽度 -->
 			<div
-				class="prose prose-sm prose-cactus mt-12 max-w-2xl prose-headings:font-semibold prose-headings:text-accent-2 prose-headings:before:absolute prose-headings:before:-ms-4 prose-headings:before:text-accent sm:prose-headings:before:content-['#'] sm:prose-th:before:content-none"
+				class="// 标题样式 // 链接样式 // 引用块样式 // 代码样式 // 代码块样式 // 图片样式 // 表格样式 // 水平线样式 // 列表样式 // 强调样式 // 移除所有默认下划线 // 基础布局 prose prose-base mx-auto mt-12 max-w-3xl dark:prose-invert prose-headings:font-semibold prose-headings:text-accent-2 prose-h1:text-3xl prose-h2:text-2xl prose-h3:text-xl prose-h4:text-lg prose-h5:text-base prose-h6:text-base prose-a:text-accent-2 prose-a:decoration-accent-2 prose-a:decoration-1 hover:prose-a:text-accent hover:prose-a:decoration-accent prose-blockquote:border-l-4 prose-blockquote:border-accent-2 prose-blockquote:bg-accent/5 prose-blockquote:px-4 prose-blockquote:py-1 prose-blockquote:not-italic prose-strong:text-accent-2 prose-em:text-accent-2 prose-code:rounded prose-code:bg-accent/10 prose-code:px-1 prose-code:py-0.5 prose-code:text-accent-2 prose-code:before:content-none prose-code:after:content-none prose-pre:rounded-lg prose-pre:bg-[#1d1f21] prose-pre:shadow-md prose-li:marker:text-accent-2 prose-table:border-collapse prose-th:border prose-th:border-accent/20 prose-th:bg-accent/5 prose-th:p-2 prose-td:border prose-td:border-accent/20 prose-td:p-2 prose-img:rounded-lg prose-img:shadow-md prose-hr:border-accent/20 [&_*]:no-underline"
 			>
 				<slot />
 				<WebMentions />

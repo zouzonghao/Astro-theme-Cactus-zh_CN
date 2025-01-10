@@ -1,6 +1,6 @@
 {
 	"[javascript]": { "editor.defaultFormatter": "biomejs.biome" },
-	"[typescript]": { "editor.defaultFormatter": "biomejs.biome" },
+	"[typescript]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
 	"[javascriptreact]": { "editor.defaultFormatter": "biomejs.biome" },
 	"[typescriptreact]": { "editor.defaultFormatter": "biomejs.biome" },
 	"[json]": { "editor.defaultFormatter": "biomejs.biome" },
