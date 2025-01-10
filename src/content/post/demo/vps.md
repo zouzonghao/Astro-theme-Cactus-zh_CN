@@ -1,12 +1,12 @@
 ---
-title: "关于Serv00+Vmess+Argo隧道实现节点搭建和加速"
+title: "关于Serv00搭建节点"
 description: "This post showcases using the markdown admonition feature in Astro Cactus"
 publishDate: "19 Dec 2024"
 tags: ["vps", "singbox"]
 ---
 
 # 1.起因和前提准备
-最近serv00的S14开了，撸了两个小鸡来玩，本来就苦代理费用久矣，故做此计----搭建代理节点自己用。一是费用问题。二是用别人的有安全隐患，总怕被“偷窥”，被DNS挟持之类的。于是便有了下文。
+最近serv00的S14开了，撸了两个小鸡来玩，故做此计----搭建代理节点自己用。
 - 前提准备：
 - 1.注册登录serv00账号
 - 2.开放serv00权限和端口
