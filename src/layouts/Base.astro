@@ -19,7 +19,11 @@ const {
 <html class="scroll-smooth" lang={siteConfig.lang}>
 	<head>
 		<BaseHead articleDate={articleDate} description={description} ogImage={ogImage} title={title} />
-	</head>
+		<link
+			rel="stylesheet"
+			href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css"
+		/></head
+	>
 	<!-- 修改 max-w-6xl 最大宽度-->
 	<body
 		class="mx-auto flex min-h-screen max-w-4xl flex-col bg-bgColor px-4 pt-16 font-mono text-sm font-normal text-textColor antialiased sm:px-8"

@@ -12,13 +12,17 @@ import { siteConfig } from "./src/site.config";
 import vercel from "@astrojs/vercel";
 
 // Remark plugins
-import remarkDirective from "remark-directive";/* Handle ::: directives as nodes */
-import { remarkAdmonitions } from "./src/plugins/remark-admonitions";/* Add admonitions */
+import remarkDirective from "remark-directive"; // Handle ::: directives as nodes
+import { remarkAdmonitions } from "./src/plugins/remark-admonitions"; // Add admonitions
 import { remarkReadingTime } from "./src/plugins/remark-reading-time";
+import remarkMath from "remark-math"; // Add LaTeX support
+import remarkGemoji from "remark-gemoji"; // Add emoji support
 
 // Rehype plugins
 import rehypeExternalLinks from "rehype-external-links";
 import rehypeUnwrapImages from "rehype-unwrap-images";
+import rehypeKatex from "rehype-katex"; // Render LaTeX with KaTeX
+
 
 import decapCmsOauth from "astro-decap-cms-oauth";
 
@@ -84,8 +88,15 @@ export default defineConfig({
                 },
             ],
             rehypeUnwrapImages,
+            rehypeKatex, // 添加 KaTeX 用于 LaTeX 渲染
         ],
-        remarkPlugins: [remarkReadingTime, remarkDirective, remarkAdmonitions],
+        remarkPlugins: [
+          remarkReadingTime,
+          remarkDirective,
+          remarkAdmonitions,
+          remarkMath, // 添加 LaTeX 功能
+          remarkGemoji, // 添加 emoji 功能
+        ],
         remarkRehype: {
             footnoteLabelProperties: {
                 className: [""],
@@ -96,7 +107,7 @@ export default defineConfig({
     // https://docs.astro.build/en/guides/prefetch/
     prefetch: {
     defaultStrategy: 'viewport',
-    prefetchAll: true
+    prefetchAll: true,
   },
     // ! 改为你的网站地址，不然社交图片无法加载
     site: "https://demo.343700.xyz/",
