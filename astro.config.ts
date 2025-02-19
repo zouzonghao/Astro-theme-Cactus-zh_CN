@@ -101,7 +101,7 @@ export default defineConfig({
     prefetchAll: true
   },
     // ! 改为你的网站地址，不然社交图片无法加载
-    site: "https://demo.343700.xyz/",
+    site: "https://ewww.fun/",
     vite: {
         optimizeDeps: {
             exclude: ["@resvg/resvg-js"],
