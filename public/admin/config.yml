@@ -57,7 +57,7 @@ collections:
           label: "ogImage",
           name: "ogImage",
           widget: "string",
-          default: "/social-card.avif",
+          default: "/arch.jpg",
           required: true,
         }
       - { label: "正文", name: "body", widget: "markdown" }
