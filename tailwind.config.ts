@@ -24,7 +24,7 @@ export default {
 			addComponents({
 				".cactus-link": {
 					"&:hover": {
-						"@apply decoration-link decoration-2": {},
+						//"@apply decoration-link decoration-2": {},
 					},
 					"@apply underline underline-offset-2": {},
 				},
@@ -77,20 +77,21 @@ export default {
 							fontWeight: "700",
 						},
 						sup: {
-							"@apply ms-0.5": "",
-							a: {
-								"&:after": {
-									content: "']'",
-								},
-								"&:before": {
-									content: "'['",
-								},
-								"&:hover": {
-									"@apply text-link no-underline bg-none": "",
-								},
-								"@apply bg-none": "",
-							},
-						},
+  "@apply ms-0.5": "",
+  a: {
+    "&:after": {
+      content: "']'",
+    },
+    "&:before": {
+      content: "'['",
+    },
+    "&:hover": {
+      "@apply text-link no-underline bg-none": "",
+      textDecoration: 'none' //显式地设置no underline
+    },
+    "@apply bg-none": "",
+  },
+},
 						/* Table */
 						"tbody tr": {
 							borderBottomWidth: "none",
