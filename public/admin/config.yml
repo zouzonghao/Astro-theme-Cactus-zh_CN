@@ -1,9 +1,9 @@
 backend:
   name: github
   branch: main # change this to your branch
-  repo: example/cactus # 1、change this to your repo
-  site_domain: example.com # 2、change this to your domain
-  base_url: https://example.com # 3、change this to your prod URL
+  repo: anchen770/Astro-theme-Cactus-zh_CN # 1、change this to your repo
+  site_domain: n.145678.xyz # 2、change this to your domain
+  base_url: https://n.145678.xyz # 3、change this to your prod URL
   auth_endpoint: oauth # the oauth route provided by the integration
 
 collections:
