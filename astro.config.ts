@@ -47,7 +47,7 @@ export default defineConfig({
         /**
          * optional
          **/
-        short_name: "仙人掌主题",
+        short_name: "Slimerの小站",
         description: siteConfig.description,
         lang: siteConfig.lang,
         icon: "public/icon.svg", // the source for generating favicon & icons
