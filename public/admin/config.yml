@@ -1,9 +1,9 @@
 backend:
   name: github
   branch: main # change this to your branch
-  repo: example/cactus # 1、change this to your repo
-  site_domain: example.com # 2、change this to your domain
-  base_url: https://example.com # 3、change this to your prod URL
+  repo: chirophy/cactus # 1、change this to your repo
+  site_domain: 241126.xyz # 2、change this to your domain
+  base_url: https://241126.xyz # 3、change this to your prod URL
   auth_endpoint: oauth # the oauth route provided by the integration
 
 collections:
@@ -18,7 +18,7 @@ collections:
           label: "简介",
           name: "description",
           widget: "string",
-          default: "这是一篇有意思的文章",
+          default: "-",
           required: true,
         }
       - {
@@ -42,7 +42,7 @@ collections:
           label: "简介",
           name: "description",
           widget: "string",
-          default: "这是一篇有意思的文章",
+          default: "-",
           required: true,
         }
       - {
