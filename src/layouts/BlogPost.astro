@@ -13,7 +13,7 @@ interface Props {
 
 const { post } = Astro.props;
 const { ogImage, title, description, updatedDate, publishDate } = post.data;
-const socialImage = ogImage ?? `/og-image/${post.id}.png`;
+const socialImage = ogImage ?? '/social-card.avif';
 const articleDate = updatedDate?.toISOString() ?? publishDate.toISOString();
 const { headings } = await render(post);
 ---
