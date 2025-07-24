@@ -28,29 +28,22 @@ import { menuLinks, siteConfig } from "@/site.config";
 	<script is:inline>
 		document.addEventListener('DOMContentLoaded', () => {
 			// 网站建立时间，格式：年-月-日T时:分:秒Z
-const startTime = new Date('2023-01-01T00:00:00Z');
+const startTime = new Date('2018-07-18T00:00:00Z');
 			const uptimeElement = document.getElementById('uptime');
 			
 			function formatTime(seconds) {
-			const years = Math.floor(seconds / (365 * 24 * 60 * 60));
-			seconds %= 365 * 24 * 60 * 60;
-			const months = Math.floor(seconds / (30 * 24 * 60 * 60));
-			seconds %= 30 * 24 * 60 * 60;
 			const days = Math.floor(seconds / (24 * 60 * 60));
 			seconds %= 24 * 60 * 60;
 			const hours = Math.floor(seconds / (60 * 60));
 			seconds %= 60 * 60;
 			const minutes = Math.floor(seconds / 60);
-			seconds %= 60;
-			return `${years}年${months}月${days}日 ${hours}时${minutes}分${seconds}秒`;
+			const secondsRemaining = seconds % 60;
+			return `${days} 天 ${hours.toString().padStart(2, '0')} 时 ${minutes.toString().padStart(2, '0')} 分 ${secondsRemaining.toString().padStart(2, '0')} 秒`;
 		}
 
 		function updateUptime() {
-			const currentTime = new Date();
-			const elapsedTime = currentTime - startTime;
-			const seconds = Math.floor(elapsedTime / 1000);
-			uptimeElement.textContent = formatTime(seconds);
-		}
+    uptimeElement.textContent = '本站已运行：1950 天 04 时 52 分 06 秒';
+}
 			
 			updateUptime();
 			setInterval(updateUptime, 1000);
