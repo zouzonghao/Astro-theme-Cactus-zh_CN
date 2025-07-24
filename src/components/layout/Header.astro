@@ -4,7 +4,7 @@ import ThemeToggle from "@/components/ThemeToggle.astro";
 import { menuLinks } from "@/site.config";
 ---
 
-<header class="group relative mb-16 flex items-center sm:ps-[4.5rem]" id="main-header">
+<header class="group relative mb-16 flex items-center justify-between w-full sm:ps-[4.5rem]" id="main-header">
 	<div class="flex sm:flex-col">
 		<a
 			aria-current={Astro.url.pathname === "/" ? "page" : false}
@@ -47,7 +47,7 @@ import { menuLinks } from "@/site.config";
 			}
 		</nav>
 	</div>
-	<div class="ml-auto flex items-center gap-4">
+	<div class="flex items-center gap-4">
 		<Search />
 		<ThemeToggle />
 	</div>
