@@ -24,7 +24,14 @@ export const siteConfig: SiteConfig = {
 };
 
 // Used to generate links in both the Header & Footer.
-export const menuLinks: { path: string; title: string }[] = [
+// 友链数据
+ export const friends: { name: string; url: string }[] = [
+   { name: '示例网站', url: 'https://example.com' },
+   { name: '另一个网站', url: 'https://another-example.com' }
+ ];
+
+// 导航菜单链接
+ export const menuLinks: { path: string; title: string }[] = [
   // 修改：改为中文
 	{
 		path: "/",

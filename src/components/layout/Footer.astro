@@ -1,5 +1,5 @@
 ---
-import { menuLinks, siteConfig } from "@/site.config";
+import { menuLinks, siteConfig, friends } from "@/site.config";
 
 
 ---
@@ -20,9 +20,9 @@ import { menuLinks, siteConfig } from "@/site.config";
 		class="flex gap-x-2 sm:gap-x-0 sm:divide-x sm:divide-gray-500"
 	>
 		{
-			menuLinks.map((link) => (
-				<a class="px-4 py-2 sm:py-0 sm:hover:text-textColor sm:hover:underline" href={link.path}>
-					友链: {link.title}
+			friends.map((link) => (
+				<a class="px-4 py-2 sm:py-0 sm:hover:text-textColor sm:hover:underline" href={link.url} target="_blank" rel="noopener noreferrer">
+					{link.name}
 				</a>
 			))
 		}
