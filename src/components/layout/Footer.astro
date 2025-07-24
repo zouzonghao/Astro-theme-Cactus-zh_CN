@@ -30,12 +30,26 @@ import { menuLinks, siteConfig } from "@/site.config";
 			const startTime = new Date();
 			const uptimeElement = document.getElementById('uptime');
 			
-			function updateUptime() {
-				const currentTime = new Date();
-				const elapsedTime = currentTime - startTime;
-				const seconds = Math.floor(elapsedTime / 1000);
-				uptimeElement.textContent = `${seconds}秒`;
-			}
+			function formatTime(seconds) {
+			const years = Math.floor(seconds / (365 * 24 * 60 * 60));
+			seconds %= 365 * 24 * 60 * 60;
+			const months = Math.floor(seconds / (30 * 24 * 60 * 60));
+			seconds %= 30 * 24 * 60 * 60;
+			const days = Math.floor(seconds / (24 * 60 * 60));
+			seconds %= 24 * 60 * 60;
+			const hours = Math.floor(seconds / (60 * 60));
+			seconds %= 60 * 60;
+			const minutes = Math.floor(seconds / 60);
+			seconds %= 60;
+			return `${years}年${months}月${days}日 ${hours}时${minutes}分${seconds}秒`;
+		}
+
+		function updateUptime() {
+			const currentTime = new Date();
+			const elapsedTime = currentTime - startTime;
+			const seconds = Math.floor(elapsedTime / 1000);
+			uptimeElement.textContent = formatTime(seconds);
+		}
 			
 			updateUptime();
 			setInterval(updateUptime, 1000);
