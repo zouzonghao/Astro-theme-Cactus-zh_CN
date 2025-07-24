@@ -26,8 +26,8 @@ export const siteConfig: SiteConfig = {
 // Used to generate links in both the Header & Footer.
 // 友链数据
  export const friends: { name: string; url: string }[] = [
-   { name: '示例网站', url: 'https://example.com' },
-   { name: '另一个网站', url: 'https://another-example.com' }
+   { name: '今日热榜', url: 'https://re.20000424.xyz' },
+   { name: '个人影视站', url: 'https://mo.versior.xyz' }
  ];
 
 // 导航菜单链接
