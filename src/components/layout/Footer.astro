@@ -5,13 +5,15 @@ import { menuLinks, siteConfig } from "@/site.config";
 ---
 
 <footer
-	class="mt-auto flex w-full flex-col items-center justify-center gap-y-2 pb-4 pt-20 text-center align-top font-semibold text-gray-600 dark:text-gray-400 sm:flex-row sm:justify-between sm:text-xs"
+	class="mt-auto flex w-full flex-col items-center justify-center gap-y-2 pb-4 pt-20 text-center align-top font-semibold text-gray-600 dark:text-gray-400"
 >
-	<div class="w-full text-center">
-		&copy; {siteConfig.author}
-	</div>
-	<div class="uptime-section text-center py-2 w-full">
-		网站运行时间: <span id="uptime">0秒</span>
+	<div class="flex flex-col w-full gap-y-2">
+		<div class="text-center">
+			&copy; {siteConfig.author}
+		</div>
+		<div class="uptime-section text-center py-2">
+			网站运行时间: <span id="uptime">0秒</span>
+		</div>
 	</div>
 	<nav
 		aria-label="More on this site"
