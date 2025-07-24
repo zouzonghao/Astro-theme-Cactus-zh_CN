@@ -1,7 +1,7 @@
 ---
 import { menuLinks, siteConfig } from "@/site.config";
 
-const year = new Date().getFullYear();
+
 ---
 
 <footer
@@ -9,9 +9,9 @@ const year = new Date().getFullYear();
 >
 	<div class="me-0 sm:me-4">
 		&copy; {siteConfig.author}
-		<!-- 修改 -->
-		<!-- {year}.<span class="inline-block">&nbsp;🚀&nbsp;Astro Cactus</span> -->
-		{year}
+	</div>
+	<div class="uptime-section text-center py-2">
+		网站运行时间: <span id="uptime">0秒</span>
 	</div>
 	<nav
 		aria-label="More on this site"
@@ -25,4 +25,20 @@ const year = new Date().getFullYear();
 			))
 		}
 	</nav>
+	<script is:inline>
+		document.addEventListener('DOMContentLoaded', () => {
+			const startTime = new Date();
+			const uptimeElement = document.getElementById('uptime');
+			
+			function updateUptime() {
+				const currentTime = new Date();
+				const elapsedTime = currentTime - startTime;
+				const seconds = Math.floor(elapsedTime / 1000);
+				uptimeElement.textContent = `${seconds}秒`;
+			}
+			
+			updateUptime();
+			setInterval(updateUptime, 1000);
+		});
+	</script>
 </footer>
