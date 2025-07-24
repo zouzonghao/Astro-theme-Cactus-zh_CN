@@ -27,7 +27,7 @@ export const siteConfig: SiteConfig = {
 // 友链数据
  export const friends: { name: string; url: string }[] = [
    { name: '今日热榜', url: 'https://re.20000424.xyz' },
-   { name: '个人影视站', url: 'mo.versior.xyz' }
+   { name: '个人影视站', url: 'https://mo.versior.xyz' }
  ];
 
 // 导航菜单链接
