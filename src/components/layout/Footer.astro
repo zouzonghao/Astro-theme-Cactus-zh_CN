@@ -7,10 +7,10 @@ import { menuLinks, siteConfig } from "@/site.config";
 <footer
 	class="mt-auto flex w-full flex-col items-center justify-center gap-y-2 pb-4 pt-20 text-center align-top font-semibold text-gray-600 dark:text-gray-400 sm:flex-row sm:justify-between sm:text-xs"
 >
-	<div class="me-0 sm:me-4">
+	<div class="w-full text-center">
 		&copy; {siteConfig.author}
 	</div>
-	<div class="uptime-section text-center py-2">
+	<div class="uptime-section text-center py-2 w-full">
 		网站运行时间: <span id="uptime">0秒</span>
 	</div>
 	<nav
@@ -20,7 +20,7 @@ import { menuLinks, siteConfig } from "@/site.config";
 		{
 			menuLinks.map((link) => (
 				<a class="px-4 py-2 sm:py-0 sm:hover:text-textColor sm:hover:underline" href={link.path}>
-					{link.title}
+					友链: {link.title}
 				</a>
 			))
 		}
@@ -28,22 +28,24 @@ import { menuLinks, siteConfig } from "@/site.config";
 	<script is:inline>
 		document.addEventListener('DOMContentLoaded', () => {
 			// 网站建立时间，格式：年-月-日T时:分:秒Z
-const startTime = new Date('2018-07-18T00:00:00Z');
+			const startTime = new Date('2018-07-18T00:00:00Z');
 			const uptimeElement = document.getElementById('uptime');
 			
 			function formatTime(seconds) {
-			const days = Math.floor(seconds / (24 * 60 * 60));
-			seconds %= 24 * 60 * 60;
-			const hours = Math.floor(seconds / (60 * 60));
-			seconds %= 60 * 60;
-			const minutes = Math.floor(seconds / 60);
-			const secondsRemaining = seconds % 60;
-			return `${days} 天 ${hours.toString().padStart(2, '0')} 时 ${minutes.toString().padStart(2, '0')} 分 ${secondsRemaining.toString().padStart(2, '0')} 秒`;
-		}
+				const days = Math.floor(seconds / (24 * 60 * 60));
+				seconds %= 24 * 60 * 60;
+				const hours = Math.floor(seconds / (60 * 60));
+				seconds %= 60 * 60;
+				const minutes = Math.floor(seconds / 60);
+				const secondsRemaining = seconds % 60;
+				return `${days} 天 ${hours.toString().padStart(2, '0')} 时 ${minutes.toString().padStart(2, '0')} 分 ${secondsRemaining.toString().padStart(2, '0')} 秒`;
+			}
 
-		function updateUptime() {
-    uptimeElement.textContent = '1950 天 05 时 04 分 55 秒';
-}
+			function updateUptime() {
+				const now = new Date();
+				const seconds = Math.floor((now - startTime) / 1000);
+				uptimeElement.textContent = formatTime(seconds);
+			}
 			
 			updateUptime();
 			setInterval(updateUptime, 1000);

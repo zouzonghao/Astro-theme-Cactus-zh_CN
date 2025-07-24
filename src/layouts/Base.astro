@@ -12,7 +12,12 @@ interface Props {
 }
 
 const {
-	meta: { articleDate, description = siteConfig.description, ogImage, title },
+	meta: {
+		articleDate,
+		description = siteConfig.description,
+		ogImage,
+		title
+	}
 } = Astro.props;
 ---
 
@@ -22,11 +27,11 @@ const {
 		<link
 			rel="stylesheet"
 			href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css"
-		/></head
-	>
-	<!-- 修改 max-w-6xl 最大宽度-->
+		/>
+	</head>
+	<!-- 修改 max-w-6xl 最大宽度 -->
 	<body
-		class="mx-auto flex min-h-screen max-w-4xl flex-col bg-bgColor px-4 pt-16 font-mono text-sm font-normal text-textColor antialiased sm:px-8"
+		class="mx-auto flex min-h-screen max-w-4xl flex-col bg-bgColor px-4 pt-16 font-mono text-sm font-normal text-textColor antialiased sm:px-8 items-center justify-center"
 	>
 		<ThemeProvider />
 		<SkipLink />
