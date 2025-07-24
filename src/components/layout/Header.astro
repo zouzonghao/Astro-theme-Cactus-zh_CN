@@ -11,19 +11,21 @@ import { menuLinks } from "@/site.config";
 			class="inline-flex items-center hover:filter-none sm:relative sm:inline-block"
 			href="/"
 		>
-			<!-- 自定义图片 -->
-			<!-- <img
-				src="/logo256.avif"
-				alt="Logo"
-				class="me-3 h-10 w-10 sm:absolute sm:start-[-5rem] sm:top-[-0.4rem] sm:me-0 sm:h-16 sm:w-16"
-			/>
-			<img
-				src="/icon.svg"
-				alt="Logo"
-				class="me-4 h-10 w-10 sm:relative sm:start-0 sm:top-0 sm:me-3 sm:h-12 sm:w-12"
-			/>
-			<!-- 修改：首页标题 -->
-			<span class="text-xl font-bold sm:text-2xl">遇事开心-2025年秋</span>
+            <!-- 自定义图片 -->
+            <!-- <img
+                src="/logo256.avif"
+                alt="Logo"
+                class="me-3 h-10 w-10 sm:absolute sm:start-[-5rem] sm:top-[-0.4rem] sm:me-0 sm:h-16 sm:w-16"
+            /> -->
+            <img
+                src="/icons/bilibili.svg"
+                alt="Test Logo"
+                class="h-12 w-12 me-4 border-2 border-red-500 bg-blue-100"
+                onload="this.alt='Logo loaded successfully'; console.log('Avatar loaded successfully');"
+                onerror="console.error('Failed to load avatar'); this.style.border='2px solid red';"
+            />
+            <!-- 修改：首页标题 -->
+            <span class="text-xl font-bold sm:text-2xl">遇事开心-2025年秋</span>
 
 		</a>
 		<nav
