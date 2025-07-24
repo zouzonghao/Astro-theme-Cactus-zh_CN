@@ -27,7 +27,8 @@ import { menuLinks, siteConfig } from "@/site.config";
 	</nav>
 	<script is:inline>
 		document.addEventListener('DOMContentLoaded', () => {
-			const startTime = new Date();
+			// 网站建立时间，格式：年-月-日T时:分:秒Z
+const startTime = new Date('2023-01-01T00:00:00Z');
 			const uptimeElement = document.getElementById('uptime');
 			
 			function formatTime(seconds) {
