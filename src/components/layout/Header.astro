@@ -1,42 +1,37 @@
 ---
-import Search from "@/components/Search.astro";
-import ThemeToggle from "@/components/ThemeToggle.astro";
-import { menuLinks } from "@/site.config";
+import { menuLinks, siteConfig } from "@/site.config";
+import ThemeToggle from "./ThemeToggle.astro";
+
+// Get the current path for active link styling
+const url = new URL(Astro.request.url);
+const pathname = url.pathname;
 ---
 
-<header class="group relative mb-16 flex items-center justify-between w-full max-w-none sm:ps-[4.5rem] pr-4" id="main-header">
+<header class="group relative mb-8 flex items-center justify-between w-full max-w-none sm:ps-[4.5rem] pr-4" id="main-header">
 	<div class="flex sm:flex-col">
 		<a
 			aria-current={Astro.url.pathname === "/" ? "page" : false}
 			class="inline-flex items-center hover:filter-none sm:relative sm:inline-block"
 			href="/"
 		>
-            <!-- 自定义图片 -->
-            <!-- <img
-                src="/logo256.avif"
-                alt="Logo"
-                class="me-3 h-10 w-10 sm:absolute sm:start-[-5rem] sm:top-[-0.4rem] sm:me-0 sm:h-16 sm:w-16"
-            /> -->
-            <img
-                src="/sior.svg"
-                alt="Logo"
-                class="h-10 w-10 me-4 object-contain"
-                onload="this.alt='Logo loaded successfully'; console.log('Avatar loaded successfully');"
-                onerror="console.error('Failed to load avatar'); this.style.border='2px solid red';"
-            />
-            <!-- 修改：首页标题 -->
-            <span class="text-xl font-bold sm:text-2xl">落叶下的贰伍秋</span>
-
+			<img
+				src="/sior.svg"
+				alt="Logo"
+				class="h-10 w-10 me-4 object-contain"
+				onload="this.alt='Logo loaded successfully'; console.log('Avatar loaded successfully');"
+				onerror="console.error('Failed to load avatar'); this.style.border='2px solid red';"
+			/>
+			<span class="text-xl font-bold sm:text-2xl">{siteConfig.title}</span>
 		</a>
 		<nav
 			aria-label="Main menu"
-			class="absolute -inset-x-4 top-14 hidden flex-col items-end gap-y-4 rounded-md bg-bgColor/[.85] py-4 text-accent shadow backdrop-blur group-[.menu-open]:z-50 group-[.menu-open]:flex sm:static sm:z-auto sm:-ms-4 sm:mt-1 sm:flex sm:flex-row sm:items-center sm:divide-x sm:divide-accent sm:rounded-none sm:bg-transparent sm:py-0 sm:shadow-none sm:backdrop-blur-none"
+			class="absolute -inset-x-4 top-14 hidden flex-col items-end gap-y-4 rounded-md bg-bgColor/[.85] py-4 text-accent shadow backdrop-blur group-[.menu-open]:z-50 group-[.menu-open]:flex sm:static sm:z-auto sm:-ms-4 sm:mt-1 sm:flex sm:flex-row sm:items-center sm:divide-x sm:divide-dashed sm:divide-accent sm:rounded-none sm:bg-transparent sm:py-0 sm:shadow-none sm:backdrop-blur-none"
 			id="navigation-menu"
 		>
 			{
 				menuLinks.map((link) => (
 					<a
-						aria-current={Astro.url.pathname === link.path ? "page" : false}
+						aria-current={pathname === link.path ? "page" : false}
 						class="px-4 py-4 underline-offset-2 sm:py-0 sm:hover:underline"
 						data-astro-prefetch
 						href={link.path}
@@ -47,8 +42,7 @@ import { menuLinks } from "@/site.config";
 			}
 		</nav>
 	</div>
-	<div class="flex items-center gap-2">
-		<Search />
+	<div class="flex items-center gap-3">
 		<ThemeToggle />
 		<mobile-button>
 		<button
@@ -85,27 +79,33 @@ import { menuLinks } from "@/site.config";
 				viewBox="0 0 24 24"
 				xmlns="http://www.w3.org/2000/svg"
 			>
-				<path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"></path>
+				<path d="m6 6 12 12M6 18 18 6" stroke-linecap="round" stroke-linejoin="round"></path>
 			</svg>
 		</button>
 	</mobile-button>
 </header>
 
 <script>
-	import { toggleClass } from "@/utils/domElement";
+	import { toggleClass } from "@/utils";
 
 	class MobileNavBtn extends HTMLElement {
-		#menuOpen: boolean = false;
+		private headerEl: HTMLElement;
+		private menuOpen: boolean;
+		private mobileButtonEl: HTMLButtonElement;
 
-		connectedCallback() {
-			const headerEl = document.getElementById("main-header")!;
-			const mobileButtonEl = this.querySelector<HTMLButtonElement>("button");
+		toggleMobileMenu = () => {
+			toggleClass(this.headerEl, "menu-open");
+			this.menuOpen = !this.menuOpen;
+			this.mobileButtonEl.setAttribute("aria-expanded", this.menuOpen.toString());
+		};
 
-			mobileButtonEl?.addEventListener("click", () => {
-				if (headerEl) toggleClass(headerEl, "menu-open");
-				this.#menuOpen = !this.#menuOpen;
-				mobileButtonEl.setAttribute("aria-expanded", this.#menuOpen.toString());
-			});
+		constructor() {
+			super();
+			this.headerEl = document.getElementById("main-header")!;
+			this.mobileButtonEl = this.querySelector("button") as HTMLButtonElement;
+			this.menuOpen = false;
+
+			this.mobileButtonEl.addEventListener("click", this.toggleMobileMenu);
 		}
 	}
 

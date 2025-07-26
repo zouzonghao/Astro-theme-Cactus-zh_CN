@@ -1,0 +1,65 @@
+---
+// 本地点赞组件
+---
+
+<div class="flex items-center gap-4 py-4 border-t border-textColor/20">
+    <button 
+        id="like-btn" 
+        class="flex items-center gap-2 px-4 py-2 rounded-lg border border-textColor/20 hover:bg-accent/10 hover:border-accent transition-all duration-200"
+        title="点赞这篇文章"
+    >
+        <span id="like-icon" class="text-lg">👍</span>
+        <span class="text-sm">
+            <span id="like-count">0</span> 赞
+        </span>
+    </button>
+    
+    <div class="text-sm text-textColor/60">
+        觉得有用就点个赞吧！
+    </div>
+</div>
+
+<script>
+    const likeBtn = document.getElementById('like-btn');
+    const likeIcon = document.getElementById('like-icon');
+    const likeCount = document.getElementById('like-count');
+    const pageUrl = window.location.pathname;
+    
+    // 获取本地存储的点赞数据
+    const getLikes = () => JSON.parse(localStorage.getItem('blog-likes') || '{}');
+    const saveLikes = (likes) => localStorage.setItem('blog-likes', JSON.stringify(likes));
+    
+    // 初始化显示
+    const likes = getLikes();
+    const currentPage = likes[pageUrl] || { count: 0, liked: false };
+    
+    const updateDisplay = (data) => {
+        likeCount.textContent = data.count;
+        likeIcon.textContent = data.liked ? '❤️' : '👍';
+        likeBtn.style.color = data.liked ? '#2bbc8a' : '';
+        likeBtn.style.borderColor = data.liked ? '#2bbc8a' : '';
+    };
+    
+    updateDisplay(currentPage);
+    
+    // 点击事件
+    likeBtn?.addEventListener('click', () => {
+        const likes = getLikes();
+        const current = likes[pageUrl] || { count: 0, liked: false };
+        
+        const newData = {
+            count: current.liked ? Math.max(0, current.count - 1) : current.count + 1,
+            liked: !current.liked
+        };
+        
+        likes[pageUrl] = newData;
+        saveLikes(likes);
+        updateDisplay(newData);
+        
+        // 简单的反馈动画
+        likeBtn.style.transform = 'scale(0.95)';
+        setTimeout(() => {
+            likeBtn.style.transform = 'scale(1)';
+        }, 150);
+    });
+</script>
