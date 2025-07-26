@@ -4,8 +4,6 @@ import { type CollectionEntry, render } from "astro:content";
 import Masthead from "@/components/blog/Masthead.astro";
 import TOC from "@/components/blog/TOC.astro";
 import WebMentions from "@/components/blog/webmentions/index.astro";
-import LocalLike from "@/components/blog/LocalLike.astro";
-import LocalComments from "@/components/blog/LocalComments.astro";
 
 import BaseLayout from "./Base.astro";
 
@@ -32,24 +30,18 @@ const { headings } = await render(post);
 		{!!headings.length && <TOC headings={headings} />}
 		<article class="flex-grow break-words" data-pagefind-body>
 			<div id="blog-hero"><Masthead content={post} /></div>
+			<!-- 修改：博文宽度 -->
 			<div
 				class="prose prose-sm prose-cactus mt-12 max-w-2xl prose-headings:font-semibold prose-headings:text-accent-2 prose-headings:before:absolute prose-headings:before:-ms-4 prose-headings:before:text-accent sm:prose-headings:before:content-['#'] sm:prose-th:before:content-none"
 			>
 				<slot />
+				<WebMentions />
 			</div>
-			
-			<!-- 添加点赞功能 -->
-			<LocalLike />
-			
-			<!-- 添加评论功能 -->
-			<LocalComments />
-			
-			<WebMentions />
 		</article>
 	</div>
 	<button
 		aria-label="Back to Top"
-		class="z-90 fixed bottom-8 end-4 flex h-10 w-10 translate-y-28 items-center justify-center rounded-full border-2 border-transparent bg-zinc-200 text-3xl opacity-0 transition-all duration-300 hover:border-zinc-400 data-[show=true]:translate-y-0 data-[show=true]:opacity-100 dark:bg-zinc-700 sm:end-8 sm:h-12 sm:w-12"
+		class="z-90 fixed bottom-8 end-4 flex h-10 w-10 translate-y-28 items-center justify-center rounded-full border-2 border-transparent bg-zinc-200 text-3xl opacity-0 transition-all duration-300 hover:border-link data-[show=true]:translate-y-0 data-[show=true]:opacity-100 dark:bg-zinc-700 sm:end-8 sm:h-12 sm:w-12"
 		data-show="false"
 		id="to-top-btn"
 		><svg
@@ -62,7 +54,7 @@ const { headings } = await render(post);
 			viewBox="0 0 24 24"
 			xmlns="http://www.w3.org/2000/svg"
 		>
-			<path d="m18 15-6-6-6 6" stroke-linecap="round" stroke-linejoin="round"></path>
+			<path d="M4.5 15.75l7.5-7.5 7.5 7.5" stroke-linecap="round" stroke-linejoin="round"></path>
 		</svg>
 	</button>
 </BaseLayout>
@@ -73,6 +65,7 @@ const { headings } = await render(post);
 
 	function callback(entries: IntersectionObserverEntry[]) {
 		entries.forEach((entry) => {
+			// only show the scroll to top button when the heading is out of view
 			scrollBtn.dataset.show = (!entry.isIntersecting).toString();
 		});
 	}
