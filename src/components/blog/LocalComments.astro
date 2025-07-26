@@ -1,0 +1,118 @@
+---
+// 本地评论组件
+---
+
+<div class="mt-8 space-y-6">
+    <h3 class="text-lg font-semibold text-accent-2">评论区</h3>
+    
+    <!-- 评论输入框 -->
+    <div class="space-y-4">
+        <div class="grid grid-cols-2 gap-4">
+            <input 
+                id="comment-name" 
+                type="text" 
+                placeholder="你的昵称" 
+                class="px-3 py-2 border border-textColor/20 rounded-lg bg-bgColor focus:border-accent focus:outline-none"
+            >
+            <input 
+                id="comment-email" 
+                type="email" 
+                placeholder="邮箱（可选）" 
+                class="px-3 py-2 border border-textColor/20 rounded-lg bg-bgColor focus:border-accent focus:outline-none"
+            >
+        </div>
+        <textarea 
+            id="comment-content" 
+            placeholder="写下你的想法..." 
+            rows="4"
+            class="w-full px-3 py-2 border border-textColor/20 rounded-lg bg-bgColor focus:border-accent focus:outline-none resize-none"
+        ></textarea>
+        <button 
+            id="submit-comment" 
+            class="px-6 py-2 bg-accent text-white rounded-lg hover:bg-accent/90 transition-colors"
+        >
+            发表评论
+        </button>
+    </div>
+    
+    <!-- 评论列表 -->
+    <div id="comments-list" class="space-y-4">
+        <!-- 评论将在这里显示 -->
+    </div>
+</div>
+
+<script>
+    const pageUrl = window.location.pathname;
+    const commentsList = document.getElementById('comments-list');
+    const submitBtn = document.getElementById('submit-comment');
+    const nameInput = document.getElementById('comment-name');
+    const emailInput = document.getElementById('comment-email');
+    const contentInput = document.getElementById('comment-content');
+    
+    // 获取和保存评论
+    const getComments = () => JSON.parse(localStorage.getItem('blog-comments') || '{}');
+    const saveComments = (comments) => localStorage.setItem('blog-comments', JSON.stringify(comments));
+    
+    // 渲染评论
+    const renderComments = () => {
+        const comments = getComments();
+        const pageComments = comments[pageUrl] || [];
+        
+        if (pageComments.length === 0) {
+            commentsList.innerHTML = '<p class="text-textColor/60 text-sm">还没有评论，来发表第一条吧！</p>';
+            return;
+        }
+        
+        commentsList.innerHTML = pageComments.map(comment => `
+            <div class="p-4 border border-textColor/20 rounded-lg bg-bgColor/50">
+                <div class="flex items-center gap-2 mb-2">
+                    <span class="font-semibold text-accent-2">${comment.name}</span>
+                    <span class="text-xs text-textColor/60">${comment.date}</span>
+                </div>
+                <p class="text-sm leading-relaxed">${comment.content}</p>
+            </div>
+        `).join('');
+    };
+    
+    // 提交评论
+    submitBtn?.addEventListener('click', () => {
+        const name = nameInput.value.trim();
+        const content = contentInput.value.trim();
+        
+        if (!name || !content) {
+            alert('请填写昵称和评论内容');
+            return;
+        }
+        
+        const comments = getComments();
+        if (!comments[pageUrl]) comments[pageUrl] = [];
+        
+        const newComment = {
+            id: Date.now(),
+            name: name,
+            email: emailInput.value.trim(),
+            content: content,
+            date: new Date().toLocaleString('zh-CN')
+        };
+        
+        comments[pageUrl].unshift(newComment);
+        saveComments(comments);
+        
+        // 清空输入框
+        nameInput.value = '';
+        emailInput.value = '';
+        contentInput.value = '';
+        
+        // 重新渲染
+        renderComments();
+        
+        // 简单反馈
+        submitBtn.textContent = '评论已发表！';
+        setTimeout(() => {
+            submitBtn.textContent = '发表评论';
+        }, 2000);
+    });
+    
+    // 初始化渲染
+    renderComments();
+</script>
