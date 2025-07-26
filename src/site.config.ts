@@ -21,18 +21,14 @@ export const siteConfig: SiteConfig = {
 	ogLocale: "zh-CN",
 	// Used to construct the meta title property found in src/components/BaseHead.astro L:11, and webmanifest name found in astro.config.ts L:42
 	title: "落叶下的贰伍秋",
+	webmentions: {
+		link: "https://webmention.io/www.20000424.xyz/webmention",
+		pingback: "https://webmention.io/www.20000424.xyz/xmlrpc",
+	},
 };
 
 // Used to generate links in both the Header & Footer.
-// 友链数据
- export const friends: { name: string; url: string }[] = [
-   { name: '今日热榜', url: 'https://re.20000424.xyz' },
-   { name: '个人影视站', url: 'https://mo.versior.xyz' }
- ];
-
-// 导航菜单链接
- export const menuLinks: { path: string; title: string }[] = [
-  // 修改：改为中文
+export const menuLinks: { path: string; title: string }[] = [
 	{
 		path: "/",
 		title: "主页",
@@ -49,6 +45,12 @@ export const siteConfig: SiteConfig = {
 		path: "/notes/",
 		title: "笔记",
 	},
+];
+
+// 友链数据
+export const friends: { name: string; url: string }[] = [
+	{ name: '今日热榜', url: 'https://re.20000424.xyz' },
+	{ name: '个人影视站', url: 'https://mo.versior.xyz' }
 ];
 
 // https://expressive-code.com/reference/configuration/
