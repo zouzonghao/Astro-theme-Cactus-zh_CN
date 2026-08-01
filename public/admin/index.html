@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>内容管理 - Cactus</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+  <link rel="stylesheet" href="https://unpkg.com/decap-cms@^3/dist/decap-cms.css" />
+  <style>
+    /* ========== Loading Screen ========== */
+    #loading-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+      transition: opacity 0.6s ease, visibility 0.6s ease;
+    }
+    #loading-screen.hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+    #loading-screen .logo {
+      width: 64px;
+      height: 64px;
+      margin-bottom: 24px;
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+    #loading-screen .logo svg {
+      width: 100%;
+      height: 100%;
+    }
+    #loading-screen .spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid rgba(255, 255, 255, 0.1);
+      border-top-color: #2bbc8a;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    #loading-screen p {
+      margin-top: 20px;
+      color: rgba(255, 255, 255, 0.5);
+      font: 14px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      letter-spacing: 0.5px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 0.8; }
+      50% { transform: scale(1.05); opacity: 1; }
+    }
+
+    /* Prevent FOUC before CMS loads */
+    html {
+      background: #0f172a;
+    }
+  </style>
+</head>
+<body>
+  <!-- Loading Screen -->
+  <div id="loading-screen">
+    <div class="logo">
+      <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="20" y="15" width="60" height="70" rx="8" stroke="#2bbc8a" stroke-width="4" fill="none"/>
+        <line x1="35" y1="38" x2="65" y2="38" stroke="#2bbc8a" stroke-width="3" stroke-linecap="round"/>
+        <line x1="35" y1="50" x2="58" y2="50" stroke="#2bbc8a" stroke-width="3" stroke-linecap="round"/>
+        <line x1="35" y1="62" x2="52" y2="62" stroke="#2bbc8a" stroke-width="3" stroke-linecap="round"/>
+        <circle cx="50" cy="86" r="6" fill="#2bbc8a" opacity="0.3"/>
+      </svg>
+    </div>
+    <div class="spinner"></div>
+    <p>正在加载管理面板...</p>
+  </div>
+
+  <!-- Decap CMS will mount here -->
+  <script src="https://unpkg.com/decap-cms@^3/dist/decap-cms.js"></script>
+  <script>
+    // Hide loading screen once CMS is ready
+    document.addEventListener('DOMContentLoaded', function() {
+      var checkReady = setInterval(function() {
+        // Decap CMS replaces the body content when it mounts
+        var cmsLoaded = document.querySelector('.nc-gitGateway-auth-page, .nc-entryPage-container, .nc-app, [class^="nc-"]');
+        if (cmsLoaded) {
+          clearInterval(checkReady);
+          var loading = document.getElementById('loading-screen');
+          if (loading) loading.classList.add('hidden');
+        }
+      }, 200);
+
+      // Fallback: hide after 8 seconds no matter what
+      setTimeout(function() {
+        clearInterval(checkReady);
+        var loading = document.getElementById('loading-screen');
+        if (loading) loading.classList.add('hidden');
+      }, 8000);
+    });
+  </script>
+  <script>
+    // Custom CSS injection for Decap CMS theming
+    var style = document.createElement('style');
+    style.textContent = `
+      /* ========== Decap CMS Custom Theme ========== */
+
+      /* --- Login Page --- */
+      .nc-gitGateway-page {
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%) !important;
+      }
+      .nc-gitGateway-auth-page {
+        background: rgba(30, 41, 59, 0.95) !important;
+        border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        border-radius: 16px !important;
+        padding: 40px !important;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5) !important;
+        max-width: 420px !important;
+      }
+      .nc-gitGateway-auth-page h1 {
+        color: #f1f5f9 !important;
+        font-weight: 600 !important;
+        font-size: 24px !important;
+      }
+      .nc-gitGateway-auth-page .nc-gitGateway-auth-page-logo svg {
+        color: #2bbc8a !important;
+      }
+      .nc-gitGateway-auth-page button,
+      .nc-gitGateway-auth-page [type="submit"] {
+        background: #2bbc8a !important;
+        border: none !important;
+        border-radius: 8px !important;
+        color: #fff !important;
+        font-weight: 600 !important;
+        padding: 10px 24px !important;
+        transition: all 0.2s ease !important;
+      }
+      .nc-gitGateway-auth-page button:hover,
+      .nc-gitGateway-auth-page [type="submit"]:hover {
+        background: #25a078 !important;
+        transform: translateY(-1px) !important;
+        box-shadow: 0 4px 12px rgba(43, 188, 138, 0.3) !important;
+      }
+      .nc-gitGateway-auth-page input:not([type="submit"]):not([type="button"]) {
+        background: rgba(15, 23, 42, 0.6) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        border-radius: 8px !important;
+        color: #f1f5f9 !important;
+        padding: 10px 14px !important;
+        font-size: 14px !important;
+      }
+      .nc-gitGateway-auth-page input:focus {
+        border-color: #2bbc8a !important;
+        box-shadow: 0 0 0 3px rgba(43, 188, 138, 0.15) !important;
+        outline: none !important;
+      }
+      .nc-gitGateway-auth-page label {
+        color: #94a3b8 !important;
+        font-size: 13px !important;
+        font-weight: 500 !important;
+      }
+      .nc-gitGateway-auth-page .nc-gitGateway-auth-page-error {
+        background: rgba(239, 68, 68, 0.1) !important;
+        border: 1px solid rgba(239, 68, 68, 0.3) !important;
+        border-radius: 8px !important;
+        color: #fca5a5 !important;
+        padding: 10px 14px !important;
+      }
+
+      /* --- Top Navigation Bar --- */
+      .nc-appHeader-container {
+        background: #1e293b !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
+      }
+      .nc-appHeader-container a,
+      .nc-appHeader-container button {
+        color: #94a3b8 !important;
+        transition: color 0.2s ease !important;
+      }
+      .nc-appHeader-container a:hover,
+      .nc-appHeader-container button:hover {
+        color: #2bbc8a !important;
+      }
+      .nc-appHeader-container .nc-appHeader-content {
+        max-width: 1400px !important;
+        margin: 0 auto !important;
+      }
+
+      /* --- Sidebar / Entry List --- */
+      .nc-sidebar-container {
+        background: #1e293b !important;
+        border-right: 1px solid rgba(255, 255, 255, 0.06) !important;
+      }
+      .nc-sidebar-container .nc-collection {
+        color: #94a3b8 !important;
+        transition: all 0.2s ease !important;
+      }
+      .nc-sidebar-container .nc-collection:hover {
+        color: #2bbc8a !important;
+        background: rgba(43, 188, 138, 0.08) !important;
+      }
+      .nc-sidebar-container .nc-collection-active {
+        color: #2bbc8a !important;
+        background: rgba(43, 188, 138, 0.1) !important;
+        border-right: 3px solid #2bbc8a !important;
+      }
+      .nc-sidebar-container .nc-collection-header {
+        color: #64748b !important;
+        font-size: 11px !important;
+        text-transform: uppercase !important;
+        letter-spacing: 1px !important;
+      }
+
+      /* --- Entry Cards --- */
+      .nc-entryCard-container {
+        background: #1e293b !important;
+        border: 1px solid rgba(255, 255, 255, 0.06) !important;
+        border-radius: 10px !important;
+        transition: all 0.2s ease !important;
+      }
+      .nc-entryCard-container:hover {
+        border-color: rgba(43, 188, 138, 0.3) !important;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
+        transform: translateY(-1px) !important;
+      }
+      .nc-entryCard-container .nc-entryCard-title {
+        color: #f1f5f9 !important;
+        font-weight: 600 !important;
+      }
+      .nc-entryCard-container .nc-entryCard-body {
+        color: #94a3b8 !important;
+      }
+      .nc-entryCard-container .nc-entryCard-date {
+        color: #64748b !important;
+      }
+
+      /* --- Editor Page --- */
+      .nc-entryPage-container {
+        background: #0f172a !important;
+      }
+      .nc-entryPage-container .nc-editor {
+        background: transparent !important;
+      }
+      .nc-entryPage-container .nc-editorToolbar {
+        background: #1e293b !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+        border-radius: 10px 10px 0 0 !important;
+        padding: 8px 12px !important;
+      }
+      .nc-entryPage-container .nc-editorToolbar button {
+        color: #94a3b8 !important;
+        border-radius: 6px !important;
+        padding: 4px 8px !important;
+        transition: all 0.2s ease !important;
+      }
+      .nc-entryPage-container .nc-editorToolbar button:hover {
+        color: #2bbc8a !important;
+        background: rgba(43, 188, 138, 0.1) !important;
+      }
+
+      /* --- Editor Content Area --- */
+      .nc-entryPage-container .nc-editor .nc-editorContent {
+        background: #1e293b !important;
+        border: 1px solid rgba(255, 255, 255, 0.06) !important;
+        border-radius: 0 0 10px 10px !important;
+        min-height: 400px !important;
+        color: #e2e8f0 !important;
+      }
+      .nc-entryPage-container .nc-editor .nc-editorContent:focus {
+        border-color: rgba(43, 188, 138, 0.3) !important;
+        box-shadow: 0 0 0 2px rgba(43, 188, 138, 0.1) !important;
+      }
+
+      /* --- Control Panel (right side) --- */
+      .nc-controlPane-container {
+        background: #1e293b !important;
+        border-left: 1px solid rgba(255, 255, 255, 0.06) !important;
+      }
+      .nc-controlPane-container h2 {
+        color: #f1f5f9 !important;
+        font-weight: 600 !important;
+      }
+      .nc-controlPane-container label {
+        color: #94a3b8 !important;
+        font-size: 13px !important;
+        font-weight: 500 !important;
+      }
+      .nc-controlPane-container input:not([type="submit"]):not([type="button"]),
+      .nc-controlPane-container textarea,
+      .nc-controlPane-container select {
+        background: rgba(15, 23, 42, 0.6) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        border-radius: 8px !important;
+        color: #f1f5f9 !important;
+        padding: 8px 12px !important;
+        font-size: 14px !important;
+      }
+      .nc-controlPane-container input:focus,
+      .nc-controlPane-container textarea:focus,
+      .nc-controlPane-container select:focus {
+        border-color: #2bbc8a !important;
+        box-shadow: 0 0 0 3px rgba(43, 188, 138, 0.15) !important;
+        outline: none !important;
+      }
+
+      /* --- Buttons --- */
+      .nc-entryPage-container button,
+      .nc-controlPane-container button {
+        border-radius: 8px !important;
+        font-weight: 500 !important;
+        transition: all 0.2s ease !important;
+      }
+      .nc-entryPage-container .nc-btn-primary,
+      .nc-controlPane-container .nc-btn-primary {
+        background: #2bbc8a !important;
+        border: none !important;
+        color: #fff !important;
+      }
+      .nc-entryPage-container .nc-btn-primary:hover,
+      .nc-controlPane-container .nc-btn-primary:hover {
+        background: #25a078 !important;
+        box-shadow: 0 4px 12px rgba(43, 188, 138, 0.3) !important;
+      }
+      .nc-entryPage-container .nc-btn-secondary,
+      .nc-controlPane-container .nc-btn-secondary {
+        background: rgba(255, 255, 255, 0.05) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        color: #94a3b8 !important;
+      }
+      .nc-entryPage-container .nc-btn-secondary:hover,
+      .nc-controlPane-container .nc-btn-secondary:hover {
+        background: rgba(255, 255, 255, 0.1) !important;
+        color: #f1f5f9 !important;
+      }
+
+      /* --- Publish Button --- */
+      .nc-publish-button {
+        background: #2bbc8a !important;
+        border: none !important;
+        border-radius: 8px !important;
+        color: #fff !important;
+        font-weight: 600 !important;
+        padding: 8px 20px !important;
+        transition: all 0.2s ease !important;
+      }
+      .nc-publish-button:hover {
+        background: #25a078 !important;
+        box-shadow: 0 4px 12px rgba(43, 188, 138, 0.3) !important;
+      }
+
+      /* --- Media Library --- */
+      .nc-mediaLibrary-container {
+        background: rgba(15, 23, 42, 0.98) !important;
+      }
+      .nc-mediaLibrary-container .nc-mediaLibrary-header {
+        background: #1e293b !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+      }
+      .nc-mediaLibrary-container .nc-mediaLibrary-card {
+        background: #1e293b !important;
+        border: 1px solid rgba(255, 255, 255, 0.06) !important;
+        border-radius: 10px !important;
+        transition: all 0.2s ease !important;
+      }
+      .nc-mediaLibrary-container .nc-mediaLibrary-card:hover {
+        border-color: rgba(43, 188, 138, 0.3) !important;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
+      }
+
+      /* --- Scrollbar --- */
+      ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: rgba(255, 255, 255, 0.2);
+      }
+
+      /* --- Markdown Preview --- */
+      .nc-previewPane {
+        background: #1e293b !important;
+        border-left: 1px solid rgba(255, 255, 255, 0.06) !important;
+      }
+      .nc-previewPane .nc-previewPane-content {
+        color: #e2e8f0 !important;
+      }
+      .nc-previewPane .nc-previewPane-content h1,
+      .nc-previewPane .nc-previewPane-content h2,
+      .nc-previewPane .nc-previewPane-content h3,
+      .nc-previewPane .nc-previewPane-content h4 {
+        color: #f1f5f9 !important;
+      }
+      .nc-previewPane .nc-previewPane-content a {
+        color: #2bbc8a !important;
+      }
+      .nc-previewPane .nc-previewPane-content code {
+        background: rgba(255, 255, 255, 0.05) !important;
+        border-radius: 4px !important;
+        padding: 2px 6px !important;
+        color: #f472b6 !important;
+      }
+      .nc-previewPane .nc-previewPane-content pre {
+        background: rgba(0, 0, 0, 0.3) !important;
+        border-radius: 8px !important;
+        padding: 16px !important;
+      }
+      .nc-previewPane .nc-previewPane-content blockquote {
+        border-left: 3px solid #2bbc8a !important;
+        color: #94a3b8 !important;
+      }
+      .nc-previewPane .nc-previewPane-content img {
+        border-radius: 8px !important;
+      }
+
+      /* --- Workflow / Editorial Workflow --- */
+      .nc-workflow-container {
+        background: #0f172a !important;
+      }
+      .nc-workflow-container .nc-workflow-card {
+        background: #1e293b !important;
+        border: 1px solid rgba(255, 255, 255, 0.06) !important;
+        border-radius: 10px !important;
+      }
+      .nc-workflow-container .nc-workflow-card-title {
+        color: #f1f5f9 !important;
+      }
+      .nc-workflow-container .nc-workflow-card-desc {
+        color: #94a3b8 !important;
+      }
+
+      /* --- Toast / Notifications --- */
+      .nc-toastContainer {
+        border-radius: 10px !important;
+      }
+      .nc-toastContainer .nc-toast {
+        border-radius: 8px !important;
+      }
+      .nc-toastContainer .nc-toast-success {
+        background: #2bbc8a !important;
+        color: #fff !important;
+      }
+      .nc-toastContainer .nc-toast-error {
+        background: #ef4444 !important;
+        color: #fff !important;
+      }
+
+      /* --- Dropdown & Modals --- */
+      .nc-dropdownMenu {
+        background: #1e293b !important;
+        border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        border-radius: 10px !important;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3) !important;
+      }
+      .nc-dropdownMenu-item {
+        color: #94a3b8 !important;
+        transition: all 0.15s ease !important;
+      }
+      .nc-dropdownMenu-item:hover {
+        background: rgba(43, 188, 138, 0.08) !important;
+        color: #2bbc8a !important;
+      }
+      .nc-modal {
+        background: rgba(0, 0, 0, 0.6) !important;
+      }
+      .nc-modal-content {
+        background: #1e293b !important;
+        border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        border-radius: 16px !important;
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4) !important;
+      }
+      .nc-modal-content h1, .nc-modal-content h2, .nc-modal-content h3 {
+        color: #f1f5f9 !important;
+      }
+      .nc-modal-content p {
+        color: #94a3b8 !important;
+      }
+
+      /* --- Simple Editor (non-rich-text) --- */
+      .nc-simpleEditor textarea {
+        background: #1e293b !important;
+        border: 1px solid rgba(255, 255, 255, 0.06) !important;
+        border-radius: 10px !important;
+        color: #e2e8f0 !important;
+        font-family: "JetBrains Mono", "Fira Code", monospace !important;
+        font-size: 14px !important;
+        line-height: 1.7 !important;
+        padding: 20px !important;
+      }
+      .nc-simpleEditor textarea:focus {
+        border-color: rgba(43, 188, 138, 0.3) !important;
+        box-shadow: 0 0 0 2px rgba(43, 188, 138, 0.1) !important;
+        outline: none !important;
+      }
+    `;
+    document.head.appendChild(style);
+  </script>
+</body>
+</html>

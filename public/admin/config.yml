@@ -6,6 +6,13 @@ backend:
   base_url: https://example.com # 3、change this to your prod URL
   auth_endpoint: oauth # the oauth route provided by the integration
 
+# 管理后台配置
+locale: 'zh_Hans'
+publish_mode: editorial_workflow
+display_url: /
+show_preview_links: true
+logo_url: /icon.svg
+
 collections:
   - name: "note"
     label: "笔记"
