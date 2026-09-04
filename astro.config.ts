@@ -77,7 +77,10 @@ export default defineConfig({
             insertThemeColorMeta: false,
             insertManifestLink: false,
         },
-		}), decapCmsOauth()],
+		}), decapCmsOauth({
+			// 使用 Sveltia CMS（Decap CMS 的现代替代前端），固定版本避免 0.x 阶段自动升级引入变化
+			decapCMSSrcUrl: "https://unpkg.com/@sveltia/cms@0.205.3/dist/sveltia-cms.js",
+		})],
     markdown: {
         rehypePlugins: [
             [
