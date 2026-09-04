@@ -36,7 +36,7 @@ const { page, uniqueTags, pinnedPosts } = Astro.props;
 
 const meta = {
 	description: "我的博客文章合集，记录感兴趣的一切",
-	title: "博客",
+	title: "文章",
 };
 
 const paginationProps = {
@@ -60,7 +60,7 @@ const descYearKeys = Object.keys(groupedByYear).sort((a, b) => +b - +a);
 
 <PageLayout meta={meta}>
 	<div class="mb-12 flex items-center gap-3">
-		<h1 class="title">博客</h1>
+		<h1 class="title">文章</h1>
 		<a class="text-accent" href="/rss.xml" target="_blank">
 			<span class="sr-only">RSS 订阅</span>
 			<Icon aria-hidden="true" class="h-6 w-6" focusable="false" name="mdi:rss" />
