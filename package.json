@@ -8,7 +8,7 @@
 		"dev": "astro dev",
 		"start": "astro dev",
 		"build": "astro build",
-		"postbuild": "pagefind --site dist --output-path .vercel/output/static/pagefind",
+		"postbuild": "pagefind --site dist/client --output-path .vercel/output/static/pagefind",
 		"preview": "astro preview",
 		"check": "astro check && biome check",
 		"lint": "biome check --write",
