@@ -1,5 +1,4 @@
 ---
-import { WEBMENTION_PINGBACK, WEBMENTION_URL } from "astro:env/client";
 import { siteConfig } from "@/site.config";
 import type { SiteMeta } from "@/types";
 import "@/styles/global.css";
@@ -11,7 +10,7 @@ const { articleDate, description, ogImage, title } = Astro.props;
 const titleSeparator = "•";
 const siteTitle = `${title} ${titleSeparator} ${siteConfig.title}`;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
-const socialImageURL = new URL(ogImage ? ogImage : "/social-card.avif", Astro.url).href;
+const socialImageURL = new URL(ogImage ? ogImage : "/social-card.png", Astro.url).href;
 ---
 
 <meta charset="utf-8" />
@@ -19,11 +18,11 @@ const socialImageURL = new URL(ogImage ? ogImage : "/social-card.avif", Astro.ur
 <title>{siteTitle}</title>
 
 {/* Icons */}
-<link href="/icons/site.avif" rel="icon" type="image/avif" />
+<link href="/icon.svg" rel="icon" type="image/svg+xml" />
 {
 	import.meta.env.PROD && (
 		<>
-			{/* Favicon & Apple Icon */}
+			{/* Favicon & Apple Icon, Generated at build */}
 			<link rel="icon" href="/favicon-32x32.png" type="image/png" />
 			<link href="/icons/apple-touch-icon.png" rel="apple-touch-icon" />
 			{/* Manifest */}
@@ -39,9 +38,6 @@ const socialImageURL = new URL(ogImage ? ogImage : "/social-card.avif", Astro.ur
 <meta content={siteTitle} name="title" />
 <meta content={description} name="description" />
 <meta content={siteConfig.author} name="author" />
-
-{/* Theme Colour */}
-<meta content="" name="theme-color" />
 
 {/* Open Graph / Facebook */}
 <meta content={articleDate ? "article" : "website"} property="og:type" />
@@ -73,16 +69,7 @@ const socialImageURL = new URL(ogImage ? ogImage : "/social-card.avif", Astro.ur
 <link href="/sitemap-index.xml" rel="sitemap" />
 
 {/* RSS auto-discovery */}
-<link href="/rss.xml" rel="alternate" title={siteConfig.title} type="application/rss+xml" />
-
-{/* Webmentions */}
-{
-	WEBMENTION_URL && (
-		<>
-			<link href={WEBMENTION_URL} rel="webmention" />
-			{WEBMENTION_PINGBACK && <link href={WEBMENTION_PINGBACK} rel="pingback" />}
-		</>
-	)
-}
+<link href="/rss.xml" title="博客" rel="alternate" type="application/rss+xml" />
+<link href="/notes/rss.xml" title="笔记" rel="alternate" type="application/rss+xml" />
 
 <meta content={Astro.generator} name="generator" />

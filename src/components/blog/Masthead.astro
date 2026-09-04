@@ -5,47 +5,45 @@ import FormattedDate from "@/components/FormattedDate.astro";
 
 interface Props {
 	content: CollectionEntry<"post">;
+	readingTime: string;
 }
 
 const {
 	content: { data },
+	readingTime,
 } = Astro.props;
-
-const dateTimeOptions: Intl.DateTimeFormatOptions = {
-	month: "long",
-};
 ---
 
 {
 	data.coverImage && (
-		<div class="mb-6 aspect-[16/9]">
+		<div class="mb-6 aspect-video">
 			<Image
 				alt={data.coverImage.alt}
-				class="object-cover"
-				fetchpriority="high"
-				loading="eager"
+				layout="constrained"
+				width={748}
+				height={420}
+				priority
 				src={data.coverImage.src}
 			/>
 		</div>
 	)
 }
-{data.draft ? <span class="text-base text-red-500">(Draft)</span> : null}
+{data.draft ? <span class="text-base text-red-500">（草稿）</span> : null}
 <h1 class="title">
 	{data.title}
 </h1>
 <div class="flex flex-wrap items-center gap-x-3 gap-y-2">
 	<p class="font-semibold">
-		<FormattedDate date={data.publishDate} dateTimeOptions={dateTimeOptions} /> /{" "}
-		{/* @ts-ignore:next-line. TODO: add reading time to collection schema? */}
-		{data.readingTime}
+		<FormattedDate date={data.publishDate} /> /{" "}
+		{readingTime}
 	</p>
 	{
-		data.updatedDate && (
-			<span class="rounded-lg bg-quote/5 px-2 py-1 text-quote">
-				Updated:
-				<FormattedDate class="ms-1" date={data.updatedDate} dateTimeOptions={dateTimeOptions} />
-			</span>
-		)
+			data.updatedDate && (
+				<span class="bg-quote/5 text-quote rounded-lg px-2 py-1">
+					更新于：
+					<FormattedDate class="ms-1" date={data.updatedDate} />
+				</span>
+			)
 	}
 </div>
 {
@@ -56,7 +54,7 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
 				class="inline-block h-6 w-6"
 				fill="none"
 				focusable="false"
-				stroke="currentColor"
+				stroke="var(--color-muted)"
 				stroke-linecap="round"
 				stroke-linejoin="round"
 				stroke-width="1.5"
@@ -72,7 +70,7 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
 				<>
 					{/* prettier-ignore */}
 					<span class="contents">
-						<a aria-label={`View more blogs with the tag ${tag}`} class="cactus-link inline-block before:content-['#']" data-pagefind-filter="tag" href={`/tags/${tag}/`}>{tag}
+						<a class="cactus-link inline-block before:content-['#']" data-pagefind-filter={`tag:${tag}`} href={`/tags/${tag}/`}><span class="sr-only">查看标签&nbsp;</span>{tag}<span class="sr-only">&nbsp;下的更多文章</span>
 						</a>{i < data.tags.length - 1 && ", "}
 					</span>
 				</>

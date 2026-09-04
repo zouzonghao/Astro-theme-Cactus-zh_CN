@@ -1,14 +1,31 @@
 {
 	"$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
-	"formatter": {
-		"indentStyle": "tab",
-		"indentWidth": 2,
-		"lineWidth": 100,
-		"formatWithErrors": true,
-		"ignore": ["*.astro"]
+	"files": {
+		"includes": [
+			"**",
+			"!**/build",
+			"!**/dist",
+			"!**/node_modules",
+			"!**/.vercel",
+			"!**/.netlify",
+			"!**/.vscode",
+			"!**/.astro"
+		]
 	},
-	"organizeImports": {
-		"enabled": true
+	"formatter": {
+		"enabled": true,
+		"indentStyle": "tab",
+		"lineEnding": "lf",
+		"lineWidth": 100,
+		"expand": "auto"
+	},
+	"vcs": { "enabled": true, "clientKind": "git", "useIgnoreFile": true },
+	"assist": {
+		"actions": {
+			"source": {
+				"organizeImports": "on"
+			}
+		}
 	},
 	"linter": {
 		"enabled": true,
@@ -17,20 +34,50 @@
 			"a11y": {
 				"noSvgWithoutTitle": "off"
 			},
-			"suspicious": {
-				"noExplicitAny": "warn"
-			}
+			"style": {
+				"noParameterAssign": "error",
+				"useAsConstAssertion": "error",
+				"useDefaultParameterLast": "error",
+				"useEnumInitializers": "error",
+				"useSelfClosingElements": "error",
+				"useSingleVarDeclarator": "error",
+				"noUnusedTemplateLiteral": "error",
+				"useNumberNamespace": "error",
+				"noInferrableTypes": "error",
+				"noUselessElse": "error",
+				"useImportType": "error"
+			},
+			"suspicious": { "noExplicitAny": "warn" }
 		}
 	},
 	"javascript": {
 		"formatter": {
 			"trailingCommas": "all",
-			"semicolons": "always"
+			"semicolons": "always",
+			"bracketSameLine": false
 		}
 	},
-	"vcs": {
-		"clientKind": "git",
-		"enabled": true,
-		"useIgnoreFile": true
-	}
+	"html": { "formatter": { "selfCloseVoidElements": "always" } },
+	"css": {
+		"parser": {
+			"tailwindDirectives": true
+		}
+	},
+	"overrides": [
+		{
+			"includes": ["**/*.astro"],
+			"linter": {
+				"rules": {
+					"style": {
+						"useConst": "off",
+						"useImportType": "off"
+					},
+					"correctness": {
+						"noUnusedVariables": "off",
+						"noUnusedImports": "off"
+					}
+				}
+			}
+		}
+	]
 }

@@ -1,9 +1,9 @@
 <theme-toggle class="ms-2 sm:ms-4">
-	<button class="relative h-9 w-9 rounded-md p-2 hover:text-accent" type="button">
-		<span class="sr-only">Dark Theme</span>
+	<button class="hover:text-accent relative h-9 w-9 cursor-pointer p-2" type="button">
+		<span class="sr-only">深色模式</span>
 		<svg
 			aria-hidden="true"
-			class="absolute start-1/2 top-1/2 h-7 w-7 -translate-x-1/2 -translate-y-1/2 scale-100 opacity-100 transition-all dark:scale-0 dark:opacity-0"
+			class="absolute inset-s-1/2 top-1/2 h-7 w-7 -translate-x-1/2 -translate-y-1/2 scale-100 opacity-100 transition-all dark:scale-0 dark:opacity-0"
 			fill="none"
 			focusable="false"
 			id="sun-svg"
@@ -34,7 +34,7 @@
 		</svg>
 		<svg
 			aria-hidden="true"
-			class="absolute start-1/2 top-1/2 h-7 w-7 -translate-x-1/2 -translate-y-1/2 scale-0 opacity-0 transition-all dark:scale-100 dark:opacity-100"
+			class="absolute inset-s-1/2 top-1/2 h-7 w-7 -translate-x-1/2 -translate-y-1/2 scale-0 opacity-0 transition-all dark:scale-100 dark:opacity-100"
 			fill="none"
 			focusable="false"
 			id="moon-svg"
@@ -57,26 +57,32 @@
 	import { rootInDarkMode } from "@/utils/domElement";
 
 	class ThemeToggle extends HTMLElement {
-		connectedCallback() {
-			const button = this.querySelector<HTMLButtonElement>("button")!;
-			// set aria role value
-			button.setAttribute("role", "switch");
-			button.setAttribute("aria-checked", String(rootInDarkMode()));
+		constructor() {
+			super();
+			const button = this.querySelector<HTMLButtonElement>("button");
 
-			// button event
-			button.addEventListener("click", () => {
-				// invert theme
-				let themeChangeEvent = new CustomEvent("theme-change", {
-					detail: {
-						theme: rootInDarkMode() ? "light" : "dark",
-					},
-				});
-				// dispatch event -> ThemeProvider.astro
-				document.dispatchEvent(themeChangeEvent);
-
-				// set the aria-checked attribute
+			if (button) {
+				// set aria role value
+				button.setAttribute("role", "switch");
 				button.setAttribute("aria-checked", String(rootInDarkMode()));
-			});
+
+				// button event
+				button.addEventListener("click", () => {
+					// invert theme
+					let themeChangeEvent = new CustomEvent("theme-change", {
+						detail: {
+							theme: rootInDarkMode() ? "light" : "dark",
+						},
+					});
+					// dispatch event -> ThemeProvider.astro
+					document.dispatchEvent(themeChangeEvent);
+
+					// set the aria-checked attribute
+					button.setAttribute("aria-checked", String(rootInDarkMode()));
+				});
+			} else {
+				console.warn("Theme Toggle: No button found");
+			}
 		}
 	}
 

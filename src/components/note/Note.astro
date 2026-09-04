@@ -1,7 +1,7 @@
 ---
 import { type CollectionEntry, render } from "astro:content";
-import FormattedDate from "@/components/FormattedDate.astro";
 import type { HTMLTag, Polymorphic } from "astro/types";
+import FormattedDate from "@/components/FormattedDate.astro";
 
 type Props<Tag extends HTMLTag> = Polymorphic<{ as: Tag }> & {
 	note: CollectionEntry<"note">;
@@ -13,9 +13,7 @@ const { Content } = await render(note);
 ---
 
 <article
-	class:list={[
-		isPreview && "inline-grid rounded-md bg-[rgb(240,240,240)] px-4 py-3 dark:bg-[rgb(33,35,38)]",
-	]}
+	class:list={[isPreview && "bg-global-text/5 inline-grid rounded-md px-4 py-3"]}
 	data-pagefind-body={isPreview ? false : true}
 >
 	<Tag class="title" class:list={{ "text-base": isPreview }}>
@@ -29,13 +27,12 @@ const { Content } = await render(note);
 			)
 		}
 	</Tag>
-  <!-- 修改：narrow 年月日 -->
 	<FormattedDate
 		dateTimeOptions={{
 			hour: "2-digit",
 			minute: "2-digit",
-			year: "numeric",
-			month: "narrow",
+			year: "2-digit",
+			month: "2-digit",
 			day: "2-digit",
 		}}
 		date={note.data.publishDate}

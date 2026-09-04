@@ -4,31 +4,30 @@ import PageLayout from "@/layouts/Base.astro";
 
 const allPosts = await getAllPosts();
 const allTags = getUniqueTagsWithCount(allPosts);
-export const prerender = true;
 
 const meta = {
-	description: "A list of all the topics I've written about in my posts",
-	title: "All Tags",
+	description: "我写过的所有主题标签列表",
+	title: "全部标签",
 };
+
 ---
 
 <PageLayout meta={meta}>
-	<h1 class="title mb-6">全部标签</h1>
-	<ul class="flex flex-wrap gap-4">
+	<h1 class="title mb-6">标签</h1>
+	<ul class="space-y-4">
 		{
-			// allTags.map(([tag, val]) => (
-			allTags.map(([tag, _]) => (
+			allTags.map(([tag, val]) => (
 				<li class="flex items-center gap-x-2">
 					<a
-						class="tx-lg cactus-link inline-block text-base"
-						data-astro-prefetch
+						class="cactus-link inline-block"
 						href={`/tags/${tag}/`}
-						title={`View posts with the tag: ${tag}`}
+						title={`查看标签 ${tag} 下的文章`}
 					>
 						&#35;{tag}
 					</a>
-					{/* 修改：隐藏标签博客数 */}
-					{/* <span class="inline-block">- {val}篇</span> */}
+					<span class="inline-block">
+						- {val} 篇文章
+					</span>
 				</li>
 			))
 		}

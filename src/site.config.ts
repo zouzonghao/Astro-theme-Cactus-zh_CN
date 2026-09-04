@@ -1,34 +1,56 @@
+import {
+	pluginFramesTexts,
+	type AstroExpressiveCodeOptions,
+} from "astro-expressive-code";
 import type { SiteConfig } from "@/types";
-import type { AstroExpressiveCodeOptions } from "astro-expressive-code";
+
+// 汉化 Expressive Code 代码块的内置文案（复制按钮等）
+// 注意：从 astro-expressive-code 导入以保证与 EC 核心使用同一模块实例
+pluginFramesTexts.addLocale("zh-CN", {
+	terminalWindowFallbackTitle: "终端窗口",
+	copyButtonTooltip: "复制代码",
+	copyButtonCopied: "已复制！",
+});
 
 export const siteConfig: SiteConfig = {
-	// Used as both a meta property (src/components/BaseHead.astro L:31 + L:49) & the generated satori png (src/pages/og-image/[slug].png.ts)
-	author: "仙人掌主题",
-	// Date.prototype.toLocaleDateString() parameters, found in src/utils/date.ts.
+	// ! 请替换为你自己的网站地址（不带末尾斜杠也可），用于 astro.config.ts、RSS、sitemap 等
+	url: "https://astro-cactus.chriswilliams.dev/",
+	/*
+		- 用作 <title> 与 og:site_name（src/components/BaseHead.astro）
+		- webmanifest 的 name（astro.config.ts）
+		- 页头链接文字（src/components/layout/Header.astro）
+		- 页脚文字（src/components/layout/Footer.astro）
+	*/
+	// TODO：改成你的站点名
+	title: "仙人掌博客",
+	// 用于页脚版权（Footer.astro）、meta author 与 OG 分享图署名
+	// TODO：改成你的名字/昵称
+	author: "仙人掌",
+	// 用作默认 meta description 与 webmanifest description
+	// TODO：改成你的站点简介
+	description: "一个基于 Astro 的个人博客，记录技术与生活",
+	// HTML lang 属性（Base.astro），同时决定全站日期格式（utils/date.ts）、
+	// webmanifest 语言与 Pagefind 搜索界面语言
+	lang: "zh-CN",
+	// og:locale meta 属性（BaseHead.astro）
+	ogLocale: "zh_CN",
+	// 是否在页头显示 Logo 文字
+	showLogo: true,
+	// 日期格式化参数（src/utils/date.ts），跟随 lang="zh-CN" 输出如「2026年9月5日」
 	date: {
-		locale: "zh-CN",
 		options: {
 			day: "numeric",
-			month: "narrow",
+			month: "short",
 			year: "numeric",
 		},
 	},
-	// Used as the default description meta property and webmanifest description
-	description: "仙人掌主题",
-	// HTML lang property, found in src/layouts/Base.astro L:18 & astro.config.ts L:48
-	lang: "zh-CN",
-	// Meta property, found in src/components/BaseHead.astro L:42
-	ogLocale: "zh-CN",
-	// Used to construct the meta title property found in src/components/BaseHead.astro L:11, and webmanifest name found in astro.config.ts L:42
-	title: "仙人掌主题",
 };
 
-// Used to generate links in both the Header & Footer.
+// 用于生成页头与页脚的导航链接。
 export const menuLinks: { path: string; title: string }[] = [
-  // 修改：改为中文
 	{
 		path: "/",
-		title: "主页",
+		title: "首页",
 	},
 	{
 		path: "/about/",
@@ -46,10 +68,12 @@ export const menuLinks: { path: string; title: string }[] = [
 
 // https://expressive-code.com/reference/configuration/
 export const expressiveCodeOptions: AstroExpressiveCodeOptions = {
+	// 界面文案语言（配合上方的 pluginFramesTexts 中文文案）
+	defaultLocale: "zh-CN",
 	styleOverrides: {
 		borderRadius: "4px",
 		codeFontFamily:
-			'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;',
+			'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
 		codeFontSize: "0.875rem",
 		codeLineHeight: "1.7142857rem",
 		codePaddingInline: "1rem",

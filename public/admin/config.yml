@@ -1,67 +1,71 @@
 backend:
   name: github
-  branch: feature # change this to your branch
-  repo: zouzonghao/Astro-theme-Cactus-zh_CN # 1、change this to your repo
-  site_domain: cactus.343700.xyz # 2、change this to your domain
-  base_url: https://cactus.343700.xyz # 3、change this to your prod URL
-  auth_endpoint: oauth # the oauth route provided by the integration
+  repo: zouzonghao/Astro-theme-Cactus-zh_CN/tree # 1、改成你的 GitHub 仓库，如 zouzonghao/astro-cactus
+  branch: feature # 2、改成你的分支（一般为 main）
+  base_url: https://cactus.343700.xyz/ # 3、改成你的线上域名（不带末尾斜杠）
+  site_domain: cactus.343700.xyz # 4、改成你的线上域名（用于后台"查看站点"链接，可留空）
+  auth_endpoint: oauth # 本项目 /oauth 路由提供的认证端点，无需修改
+
+media_folder: public/assets/images # 上传的图片在仓库中的存放位置
+public_folder: /assets/images # 上传图片的访问路径前缀
 
 collections:
-  - name: "note"
-    label: "笔记"
-    folder: "src/content/note"
-    create: true
-    slug: "{{year}}.{{month}}.{{day}}_{{slug}}"
-    fields:
-      - { label: "标题", name: "title", widget: "string", required: true }
-      - {
-          label: "简介",
-          name: "description",
-          widget: "string",
-          default: "这是一篇有意思的文章",
-          required: true,
-        }
-      - {
-          label: "发布日期",
-          name: "publishDate",
-          widget: "datetime",
-          date_format: "YYYY-MM-DD",
-          time_format: "HH:mm",
-          required: true,
-        }
-      - { label: "正文", name: "body", widget: "markdown" }
-
   - name: "post"
     label: "博文"
-    folder: "src/content/post"
+    label_singular: "博文"
+    folder: "content/posts"
     create: true
-    slug: "{{year}}.{{month}}.{{day}}_{{slug}}"
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     fields:
       - { label: "标题", name: "title", widget: "string", required: true }
-      - {
-          label: "简介",
-          name: "description",
-          widget: "string",
-          default: "这是一篇有意思的文章",
-          required: true,
-        }
+      - { label: "简介", name: "description", widget: "string", required: true }
       - {
           label: "发布日期",
           name: "publishDate",
           widget: "datetime",
+          format: "YYYY-MM-DD",
           date_format: "YYYY-MM-DD",
+          time_format: false,
           required: true,
         }
-      - { label: "标签", name: "tags", widget: "list", required: true }
+      - { label: "标签", name: "tags", widget: "list", required: false, default: [] }
+      - { label: "草稿", name: "draft", widget: "boolean", default: false, required: false }
+      - { label: "置顶", name: "pinned", widget: "boolean", default: false, required: false }
       - {
-          label: "ogImage",
+          label: "OG 分享图（可选，默认自动生成）",
           name: "ogImage",
           widget: "string",
-          default: "/social-card.avif",
+          required: false,
+        }
+      - { label: "正文", name: "body", widget: "markdown" }
+
+  - name: "note"
+    label: "笔记"
+    label_singular: "笔记"
+    folder: "content/notes"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - { label: "标题", name: "title", widget: "string", required: true }
+      - { label: "简介", name: "description", widget: "string", required: false }
+      - {
+          label: "发布日期",
+          name: "publishDate",
+          widget: "datetime",
+          format: "YYYY-MM-DDTHH:mm:ssZ",
+          date_format: "YYYY-MM-DD",
+          time_format: "HH:mm:ss",
           required: true,
         }
       - { label: "正文", name: "body", widget: "markdown" }
 
-media_folder: "public/assets/images" # 文件将被存储在仓库中的位置
-public_folder: "/assets/images" # 上传媒体文件的 src 属性
-
+  - name: "tag"
+    label: "标签页"
+    label_singular: "标签页"
+    folder: "content/tags"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "标题", name: "title", widget: "string", required: false }
+      - { label: "描述", name: "description", widget: "string", required: false }
+      - { label: "正文", name: "body", widget: "markdown" }

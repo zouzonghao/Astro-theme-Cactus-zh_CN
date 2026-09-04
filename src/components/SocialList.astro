@@ -1,51 +1,34 @@
 ---
 import { Icon } from "astro-icon/components";
 
-/**
+/** 
 	Uses https://www.astroicon.dev/getting-started/
 	Find icons via guide: https://www.astroicon.dev/guides/customization/#open-source-icon-sets
 	Only installed pack is: @iconify-json/mdi
 */
 const socialLinks: {
 	friendlyName: string;
-	isWebmention?: boolean;
 	link: string;
 	name: string;
 }[] = [
 	{
 		friendlyName: "Github",
-		link: "https://github.com/zouzonghao",
+		link: "https://github.com/chrismwilliams/astro-cactus",
 		name: "mdi:github",
-	},
-	// 修改：添加其他社交平台链接，name 为 /public/icons/ 下的 svg 文件名 下的 svg 文件名
-	{
-		friendlyName: "Bilibili",
-		link: "https://bilibili.com/",
-		name: "bilibili",
-	},
-	{
-		friendlyName: "Nodeseek",
-		link: "https://www.nodeseek.com/",
-		name: "nodeseek",
-	},
-	{
-		friendlyName: "linux.do",
-		link: "https://linux.do/",
-		name: "linux.do",
 	},
 ];
 ---
 
-<div class="mt-8 flex flex-wrap items-end justify-end gap-x-2 text-right">
-	<!-- <p>Find me on</p> -->
+<div class="flex flex-wrap items-end gap-x-2">
+	<p>在这里找到我</p>
 	<ul class="flex flex-1 items-center gap-x-2 sm:flex-initial">
 		{
-			socialLinks.map(({ friendlyName, isWebmention, link, name }) => (
+			socialLinks.map(({ friendlyName, link, name }) => (
 				<li class="flex">
 					<a
-						class="inline-block sm:hover:text-link"
+						class="hover:text-link inline-block"
 						href={link}
-						rel={`noreferrer ${isWebmention ? "me authn" : ""}`}
+						rel="noreferrer"
 						target="_blank"
 					>
 						<Icon aria-hidden="true" class="h-8 w-8" focusable="false" name={name} />

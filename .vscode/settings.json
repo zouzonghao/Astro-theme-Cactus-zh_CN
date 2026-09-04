@@ -3,18 +3,20 @@
 	"[typescript]": { "editor.defaultFormatter": "biomejs.biome" },
 	"[javascriptreact]": { "editor.defaultFormatter": "biomejs.biome" },
 	"[typescriptreact]": { "editor.defaultFormatter": "biomejs.biome" },
-	"[json]": { "editor.defaultFormatter": "biomejs.biome" },
-	"[jsonc]": { "editor.defaultFormatter": "biomejs.biome" },
-	"editor.formatOnSave": true,
-	"prettier.documentSelectors": ["**/*.astro"],
-	"editor.codeActionsOnSave": {
-		"source.organizeImports": "never",
-		"source.organizeImports.biome": "explicit",
-		"quickfix.biome": "explicit"
+	"[json][jsonc]": {
+		"editor.defaultFormatter": "biomejs.biome"
 	},
-	"[markdown]": {
-		"editor.wordWrap": "on"
+	"[astro]": { "editor.defaultFormatter": "astro-build.astro-vscode" },
+	"[markdown]": { "editor.wordWrap": "on" },
+	"editor.formatOnSave": true,
+	"editor.codeActionsOnSave": {
+		"source.fixAll.biome": "explicit",
+		"source.organizeImports.biome": "explicit"
 	},
 	"typescript.tsdk": "node_modules/typescript/lib",
-	"astro.content-intellisense": true
+	"astro.content-intellisense": true,
+	"files.associations": {
+		"*.css": "tailwindcss"
+	},
+	"tailwindCSS.experimental.configFile": "./src/styles/global.css"
 }

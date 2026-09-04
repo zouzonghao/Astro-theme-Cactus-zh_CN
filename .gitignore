@@ -1,16 +1,17 @@
 # build output
 dist/
 .output/
-.vercel/
+
 # dependencies
 node_modules/
-.zcode
+
 # logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
+.zcode/
 
 # environment variables
 .env
@@ -23,3 +24,4 @@ pnpm-debug.log*
 *.pem
 .cache
 .astro
+.vercel

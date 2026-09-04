@@ -1,36 +1,33 @@
 ---
 import PageLayout from "@/layouts/Base.astro";
-import SocialList from "@/components/SocialList.astro";
-export const prerender = true;
 
 const meta = {
-	description: "仙人掌主题",
-	// 修改：关于
+	description: "一个基于 Astro 的静态博客主题",
 	title: "关于",
 };
 ---
 
 <PageLayout meta={meta}>
-	<h1 class="title mb-8">关于</h1>
-
+	<h1 class="title mb-12">关于</h1>
 	<div class="prose prose-sm prose-cactus max-w-none">
+		<p>你好，欢迎来到我的博客！这里记录我的技术笔记、学习心得与生活随想。</p>
+		<p>这个博客的一些亮点：</p>
+		<ul class="list-inside list-disc" role="list">
+			<li>静态站点，速度飞快</li>
+			<li>全面适配移动端</li>
+			<li>内置明亮 / 深色两种模式</li>
+			<li>支持在线编辑发布（Sveltia CMS）</li>
+			<li>基于 Tailwind CSS 的样式</li>
+			<li>代码高亮与代码块复制</li>
+			<li>自动生成文章 OG 分享图</li>
+		</ul>
 		<p>
-			随笔是一种自由的写作形式，它不受严格的格式和结构的限制，而是以轻松、随意的方式记录生活中的点滴。无论是对日常琐事的感悟，还是对某个瞬间的思考，随笔都能帮助我们捕捉那些容易被遗忘的瞬间。
+			基于开源主题 <a
+				class="cactus-link inline-block"
+				href="https://github.com/chrismwilliams/astro-cactus"
+				rel="noreferrer"
+				target="_blank">Astro Cactus</a
+			> 构建。
 		</p>
-		<p>
-			在这里，你可以找到我对生活的观察、对世界的思考，以及对未来的期待。每一篇随笔都是一次心灵的旅程，记录着我在某个时刻的所思所感。
-		</p>
-		<p>
-			札记是一种系统化的记录方式，它帮助我们将学习到的知识、阅读的书籍、观看的电影等内容进行整理和总结。通过札记，我们可以更好地理解所学的内容，并将其转化为自己的知识储备。
-		</p>
-		<p>
-			在这个页面中，你会看到我对书籍、文章、电影等的摘录和思考。每一篇札记都是一次知识的积累，记录着我在学习过程中的收获与感悟。
-		</p>
-		<p>
-			随笔与札记，一个记录生活，一个记录知识。它们是我与世界对话的方式，也是我与自己对话的桥梁。希望这些文字能够带给你一些启发，或者至少让你感受到一丝共鸣。
-		</p>
-	</div>
-	<div>
-		<SocialList />
 	</div>
 </PageLayout>
