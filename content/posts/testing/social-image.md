@@ -1,22 +1,22 @@
 ---
-title: "Example OG Social Image"
+title: "OG 社交分享图示例"
 publishDate: "27 January 2023"
-description: "An example post for Astro Cactus, detailing how to add a custom social image card in the frontmatter"
+description: "一篇仙人掌主题的示例文章，演示如何在 frontmatter 中自定义社交分享图（OG image）"
 tags: ["example", "blog", "image"]
 ogImage: "/social-card.png"
 ---
 
-## Adding your own social image to a post
+## 为文章添加自定义社交分享图
 
-This post is an example of how to add a custom [open graph](https://ogp.me/) social image, also known as an OG image, to a blog post.
-By adding the optional ogImage property to the frontmatter of a post, you opt out of [satori](https://github.com/vercel/satori) automatically generating an image for this page.
+本文演示如何为博客文章添加自定义的 [Open Graph](https://ogp.me/) 社交分享图，也称为 OG 图片。
+只要在文章的 frontmatter 中加上可选的 ogImage 属性，就可以不再使用 [satori](https://github.com/vercel/satori) 为该页面自动生成的分享图。
 
-If you open this markdown file `src/content/post/social-image.md` you'll see the ogImage property set to an image which lives in the public folder[^1].
+打开这篇示例的源文件 `content/posts/testing/social-image.md`，可以看到 ogImage 属性指向了一张位于 public 目录的图片[^1]。
 
 ```yaml
 ogImage: "/social-card.png"
 ```
 
-You can view the one set for this template page [here](https://astro-cactus.chriswilliams.dev/social-card.png).
+本站使用的分享图可以在[这里](/social-card.png)查看。
 
-[^1]: The image itself can be located anywhere you like.
+[^1]: 图片可以放在你喜欢的任何位置。

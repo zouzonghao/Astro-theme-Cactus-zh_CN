@@ -1,9 +1,9 @@
 ---
-title: Hello, Welcome
-description: An introduction to using the note feature in Astro Cactus
+title: 你好，欢迎
+description: 介绍仙人掌主题的笔记（Note）功能如何使用
 publishDate: "2024-10-14T11:23:00Z"
 ---
 
-Hi, Hello. This is an example note feature included with Astro Cactus 🌵
+嗨，你好！这是仙人掌主题自带的笔记功能示例 🌵
 
-They're for shorter, more concise posts that you'd like to share. They generally don't include headings, but hey, it's entirely up to you!
+笔记适合发布更简短、更精炼的内容。一般来说不需要标题和小节，不过怎么写完全由你决定！
