@@ -3,13 +3,12 @@ import "@/styles/blocks/search.css";
 ---
 
 <script>
-	(() => {
-		if (import.meta.env.DEV) return;
-		const onIdle = window.requestIdleCallback || ((cb) => setTimeout(cb, 1));
-		onIdle(async () => {
-			await import("@pagefind/component-ui");
-		});
-	})();
+	// 搜索图标由 @pagefind/component-ui 在客户端渲染，必须尽早加载，
+	// 否则跨页导航后图标会比页面晚出现（闪烁）。开发模式下无 pagefind
+	// 索引，保持跳过。
+	if (import.meta.env.PROD) {
+		import("@pagefind/component-ui");
+	}
 </script>
 
 <pagefind-config

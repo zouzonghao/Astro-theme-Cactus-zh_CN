@@ -2,7 +2,6 @@
 import { type CollectionEntry, getCollection } from "astro:content";
 import PostPreview from "@/components/blog/PostPreview.astro";
 import Note from "@/components/note/Note.astro";
-import SocialList from "@/components/SocialList.astro";
 import { getAllPosts } from "@/data/post";
 import PageLayout from "@/layouts/Base.astro";
 import { collectionDateSort } from "@/utils/date";
@@ -30,14 +29,6 @@ const latestNotes = allNotes
 ---
 
 <PageLayout meta={{ title: "首页" }}>
-	<section>
-		<h1 class="title mb-12">你好，世界！</h1>
-		<p class="mb-4">
-			你好，欢迎来到我的博客！这里会记录我在技术路上的所见所想。如果你想了解更多，可以点击下方的
-			GitHub 图标访问我的仓库。
-		</p>
-		<SocialList />
-	</section>
 	{
 		pinnedPosts.length > 0 && (
 			<section class="mt-16">

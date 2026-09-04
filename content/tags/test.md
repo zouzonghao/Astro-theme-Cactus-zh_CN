@@ -1,4 +1,5 @@
 ---
+tag_name: test
 title: 测试标签
 description: 该标签用于测试主题的各类功能。
 ---

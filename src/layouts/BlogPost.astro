@@ -12,7 +12,6 @@ interface Props {
 
 const { post } = Astro.props;
 const { ogImage, title, description, updatedDate, publishDate } = post.data;
-const socialImage = ogImage ?? `/og-image/${post.id}.png`;
 const articleDate = updatedDate?.toISOString() ?? publishDate.toISOString();
 const { headings, remarkPluginFrontmatter } = await render(post);
 const readingTime: string = remarkPluginFrontmatter.readingTime;
@@ -22,7 +21,7 @@ const readingTime: string = remarkPluginFrontmatter.readingTime;
 	meta={{
 		articleDate,
 		description,
-		ogImage: socialImage,
+		ogImage,
 		title,
 	}}
 >
