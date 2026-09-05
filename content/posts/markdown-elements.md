@@ -1,8 +1,8 @@
 ---
 title: "一篇包含各种 Markdown 元素的示例文章"
 description: "本文用于测试和展示多种不同的 Markdown 元素"
-publishDate: "22 Feb 2023"
-updatedDate: 22 Jan 2024
+publishDate: "2023-02-22"
+updatedDate: "2024-01-22"
 tags: ["示例", "markdown"]
 pinned: true
 ---

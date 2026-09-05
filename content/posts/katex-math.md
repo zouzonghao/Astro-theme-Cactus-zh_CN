@@ -1,7 +1,7 @@
 ---
 title: "KaTeX 数学公式"
 description: "本文演示仙人掌主题中数学公式与化学方程式的使用方法"
-publishDate: "5 Sep 2026"
+publishDate: "2026-09-05"
 tags: ["markdown", "katex", "示例"]
 ---
 

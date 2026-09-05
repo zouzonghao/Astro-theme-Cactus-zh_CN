@@ -1,8 +1,8 @@
 ---
 title: "Markdown 提示块"
 description: "本文演示仙人掌主题中 Markdown 提示块（Admonition）功能的使用方法"
-publishDate: "25 Aug 2024"
-updatedDate: "4 July 2025"
+publishDate: "2024-08-25"
+updatedDate: "2025-07-04"
 tags: ["markdown", "admonitions", "示例"]
 ---
 
