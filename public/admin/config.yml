@@ -9,6 +9,17 @@ backend:
 media_folder: public/assets/images # 上传的图片在仓库中的存放位置
 public_folder: /assets/images # 上传图片的访问路径前缀
 
+# 在 CMS 内直传的图片自动压缩为 WebP（浏览器内完成）；AVIF 请用 /admin/upload 上传页
+media_libraries:
+  default:
+    config:
+      transformations:
+        raster_image:
+          format: webp # Sveltia 内置压缩仅支持 webp
+          quality: 80
+          width: 2048 # 超出自动缩小
+          height: 2048
+
 collections:
   - name: "post"
     label: "博文"
@@ -16,6 +27,14 @@ collections:
     folder: "content/posts"
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    # 排序菜单默认不含自定义日期字段，需显式声明；默认按发布时间倒序（最新在前）
+    sortable_fields:
+      fields:
+        - publishDate
+        - title
+      default:
+        field: publishDate
+        direction: descending
     fields:
       - { label: "标题", name: "title", widget: "string", required: true }
       - { label: "简介", name: "description", widget: "string", required: true }
@@ -53,6 +72,13 @@ collections:
     folder: "content/notes"
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    sortable_fields:
+      fields:
+        - publishDate
+        - title
+      default:
+        field: publishDate
+        direction: descending
     fields:
       - { label: "标题", name: "title", widget: "string", required: true }
       - { label: "简介", name: "description", widget: "string", required: false }

@@ -10,5 +10,54 @@
 	<body>
 		<!-- Sveltia CMS：Decap CMS 的现代替代前端，由 CDN 加载后完全运行在浏览器里 -->
 		<script src="https://unpkg.com/@sveltia/cms@0.205.3/dist/sveltia-cms.js"></script>
+
+		<!-- 左下角悬浮按钮：跳转图片上传页（Sveltia UI 主题配色） -->
+		<style>
+			.upload-fab {
+				position: fixed;
+				left: 20px;
+				bottom: 20px;
+				z-index: 9999;
+				display: inline-flex;
+				align-items: center;
+				gap: 8px;
+				height: 40px;
+				padding: 0 16px;
+				border-radius: 20px;
+				background: hsl(210 80% 40%);
+				color: #fff;
+				text-decoration: none;
+				font-family: "Source Sans 3", system-ui, -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+				font-size: 14px;
+				font-weight: 600;
+				box-shadow: 0 2px 8px hsl(210 10% 0% / 25%);
+				transition: filter 0.15s, transform 0.15s;
+			}
+			.upload-fab:hover {
+				filter: brightness(1.1);
+				transform: translateY(-1px);
+			}
+			.upload-fab:focus-visible {
+				outline: 2px solid hsl(210 80% 40%);
+				outline-offset: 2px;
+			}
+			@media (prefers-color-scheme: dark) {
+				.upload-fab {
+					background: hsl(210 100% 40%);
+				}
+			}
+			/* 避开 Sveltia 移动端的底部导航栏 */
+			@media (max-width: 719px) {
+				.upload-fab {
+					bottom: 80px;
+				}
+			}
+		</style>
+		<a class="upload-fab" href="/admin/upload" target="_blank" rel="noopener" title="打开图片上传页（新标签页）">
+			<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true">
+				<path d="M11 15h2V8.8l2.6 2.6 1.4-1.4L12 5 7 10l1.4 1.4L11 8.8V15zM5 18h14v2H5v-2z" />
+			</svg>
+			图片上传
+		</a>
 	</body>
 </html>
