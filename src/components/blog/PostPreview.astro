@@ -1,6 +1,7 @@
 ---
 import type { CollectionEntry } from "astro:content";
 import type { HTMLTag, Polymorphic } from "astro/types";
+import { Icon } from "astro-icon/components";
 import FormattedDate from "@/components/FormattedDate.astro";
 
 type Props<Tag extends HTMLTag> = Polymorphic<{ as: Tag }> & {
@@ -17,5 +18,13 @@ const { as: Tag = "div", post, withDesc = false } = Astro.props;
 	<a class="cactus-link" href={`/posts/${post.id}/`}>
 		{post.data.title}
 	</a>
+	{post.data.password && (
+		<Icon
+			aria-hidden="true"
+			class="ms-1 inline-block h-4 w-4 align-text-bottom"
+			focusable="false"
+			name="mdi:lock"
+		/>
+	)}
 </Tag>
 {withDesc && <q class="line-clamp-3 italic">{post.data.description}</q>}

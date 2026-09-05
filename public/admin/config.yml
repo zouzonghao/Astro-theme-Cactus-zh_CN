@@ -32,6 +32,14 @@ collections:
       - { label: "草稿", name: "draft", widget: "boolean", default: false, required: false }
       - { label: "置顶", name: "pinned", widget: "boolean", default: false, required: false }
       - {
+          label: "访问密码（留空为公开，设置后正文加密，需密码解锁）",
+          name: "password",
+          widget: "string",
+          required: false,
+          default: "",
+        }
+      - { label: "密码提示（可选，显示在密码框下方）", name: "passwordHint", widget: "string", required: false, default: "" }
+      - {
           label: "OG 分享图（可选，默认自动生成）",
           name: "ogImage",
           widget: "string",

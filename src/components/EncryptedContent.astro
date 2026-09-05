@@ -1,0 +1,236 @@
+---
+import { Icon } from "astro-icon/components";
+
+import { encryptContent } from "@/utils/crypto";
+
+interface Props {
+	password: string;
+	slug: string;
+	hint?: string;
+}
+
+const { password, slug, hint = "" } = Astro.props;
+
+// 构建期把 slot 中已渲染的正文 HTML 加密为 base64 密文，静态页面不含明文
+const rawHtml = await Astro.slots.render("default");
+const encryptedData = encryptContent(rawHtml, password, slug);
+---
+
+<div id="encrypted-container" data-encrypted={encryptedData} data-slug={slug}>
+	<div id="password-ui" class="flex flex-col items-center gap-4 py-16">
+		<Icon
+			aria-hidden="true"
+			class="h-12 w-12 text-accent"
+			focusable="false"
+			name="mdi:lock-outline"
+		/>
+		<h2 class="text-accent-2 dark:text-global-text text-lg font-semibold">
+			本文已加密
+		</h2>
+		<p class="text-muted m-0 text-center">输入访问密码查看正文</p>
+		{hint && <p class="text-muted m-0 text-center text-xs">提示：{hint}</p>}
+		<form class="flex w-full max-w-xs flex-col gap-2" id="password-form">
+			<input
+				autocomplete="off"
+				class="focus:border-link dark:border-zinc-600 w-full rounded-md border border-zinc-300 bg-transparent px-3 py-2 outline-none transition-colors"
+				id="password-input"
+				name="password"
+				placeholder="密码"
+				type="password"
+			/>
+			<button
+				class="hover:border-link dark:border-zinc-600 dark:hover:border-link rounded-md border border-zinc-300 px-3 py-2 transition-colors"
+				type="submit"
+			>
+				解锁
+			</button>
+		</form>
+		<p class="m-0 hidden text-xs text-red-500" id="password-error">
+			密码错误，请重试
+		</p>
+	</div>
+	<!-- 解密后的正文注入位置 -->
+	<div class="hidden" id="decrypted-content"></div>
+</div>
+
+<script is:inline>
+	(function () {
+		var ITERATIONS = 100000;
+		var SALT_LEN = 16;
+		var IV_LEN = 12;
+		var TAG_LEN = 16;
+
+		var container = document.getElementById('encrypted-container');
+		if (!container) return;
+
+		var encryptedData = container.getAttribute('data-encrypted');
+		var slug = container.getAttribute('data-slug');
+		var cacheKey = 'pw:' + slug;
+
+		var ui = document.getElementById('password-ui');
+		var form = document.getElementById('password-form');
+		var input = document.getElementById('password-input');
+		var errorEl = document.getElementById('password-error');
+		var contentEl = document.getElementById('decrypted-content');
+
+		function escapeHtml(s) {
+			return s
+				.replace(/&/g, '&amp;')
+				.replace(/</g, '&lt;')
+				.replace(/>/g, '&gt;')
+				.replace(/"/g, '&quot;');
+		}
+
+		function base64ToBytes(b64) {
+			var bin = atob(b64);
+			var bytes = new Uint8Array(bin.length);
+			for (var i = 0; i < bin.length; i++) {
+				bytes[i] = bin.charCodeAt(i);
+			}
+			return bytes;
+		}
+
+		async function decrypt(pwd) {
+			var raw = base64ToBytes(encryptedData);
+			var salt = raw.slice(0, SALT_LEN);
+			var iv = raw.slice(SALT_LEN, SALT_LEN + IV_LEN);
+			var authTag = raw.slice(SALT_LEN + IV_LEN, SALT_LEN + IV_LEN + TAG_LEN);
+			var ciphertext = raw.slice(SALT_LEN + IV_LEN + TAG_LEN);
+
+			// Web Crypto 的 AES-GCM 要求 authTag 拼在密文尾部
+			var combined = new Uint8Array(ciphertext.length + TAG_LEN);
+			combined.set(ciphertext);
+			combined.set(authTag, ciphertext.length);
+
+			var enc = new TextEncoder();
+			var keyMaterial = await crypto.subtle.importKey(
+				'raw',
+				enc.encode(pwd),
+				'PBKDF2',
+				false,
+				['deriveBits', 'deriveKey']
+			);
+			var key = await crypto.subtle.deriveKey(
+				{ name: 'PBKDF2', salt: salt, iterations: ITERATIONS, hash: 'SHA-256' },
+				keyMaterial,
+				{ name: 'AES-GCM', length: 256 },
+				false,
+				['decrypt']
+			);
+			var decrypted = await crypto.subtle.decrypt(
+				{ name: 'AES-GCM', iv: iv },
+				key,
+				combined
+			);
+			return new TextDecoder().decode(decrypted);
+		}
+
+		// 从解密后的正文标题重建目录，标记结构与 TOCHeading.astro 保持一致
+		function rebuildToc() {
+			var toc = document.getElementById('toc-placeholder');
+			if (!toc) return;
+			var headings = contentEl.querySelectorAll('h2, h3, h4');
+			if (!headings.length) return;
+
+			function injectChild(items, item) {
+				var last = items[items.length - 1];
+				if (!last || last.depth >= item.depth) {
+					items.push(item);
+				} else {
+					injectChild(last.children, item);
+				}
+			}
+
+			var items = [];
+			headings.forEach(function (h) {
+				if (!h.id) return;
+				injectChild(items, {
+					depth: parseInt(h.tagName.slice(1), 10),
+					slug: h.id,
+					text: h.textContent || '',
+					children: [],
+				});
+			});
+
+			function renderItems(list) {
+				var out = '';
+				for (var i = 0; i < list.length; i++) {
+					var it = list[i];
+					out += '<li class="' + (it.depth > 2 ? 'ms-2' : '') + '">';
+					out +=
+						'<a class="line-clamp-2 hover:text-accent ' +
+						(it.depth <= 2 ? 'mt-3' : 'mt-2 text-xs') +
+						'" href="#' +
+						it.slug +
+						'"><span aria-hidden="true" class="me-0.5">#</span>' +
+						escapeHtml(it.text) +
+						'</a>';
+					if (it.children.length) out += '<ol>' + renderItems(it.children) + '</ol>';
+					out += '</li>';
+				}
+				return out;
+			}
+
+			var ol = toc.querySelector('ol');
+			if (ol) ol.innerHTML = renderItems(items);
+			toc.classList.remove('hidden');
+		}
+
+		function showContent(html) {
+			contentEl.innerHTML = html;
+			contentEl.classList.remove('hidden');
+			ui.classList.add('hidden');
+			// innerHTML 注入的脚本是 inert 的，重建节点使其重新执行
+			var scripts = contentEl.querySelectorAll('script');
+			for (var i = 0; i < scripts.length; i++) {
+				var old = scripts[i];
+				var ns = document.createElement('script');
+				for (var j = 0; j < old.attributes.length; j++) {
+					ns.setAttribute(old.attributes[j].name, old.attributes[j].value);
+				}
+				ns.textContent = old.textContent;
+				old.parentNode.replaceChild(ns, old);
+			}
+			rebuildToc();
+			// 通知其它组件（如灯箱、代码增强）在解密后重新初始化
+			setTimeout(function () {
+				document.dispatchEvent(new CustomEvent('password:decrypted'));
+			}, 100);
+		}
+
+		function showError() {
+			errorEl.classList.remove('hidden');
+		}
+
+		function hideError() {
+			errorEl.classList.add('hidden');
+		}
+
+		form.addEventListener('submit', function (e) {
+			e.preventDefault();
+			var pwd = input.value.trim();
+			if (!pwd) return;
+			hideError();
+			decrypt(pwd)
+				.then(function (html) {
+					sessionStorage.setItem(cacheKey, pwd);
+					showContent(html);
+				})
+				.catch(function () {
+					showError();
+				});
+		});
+
+		// 尝试会话内缓存的密码，刷新免重输
+		var cached = sessionStorage.getItem(cacheKey);
+		if (cached) {
+			decrypt(cached)
+				.then(function (html) {
+					showContent(html);
+				})
+				.catch(function () {
+					sessionStorage.removeItem(cacheKey);
+				});
+		}
+	})();
+</script>

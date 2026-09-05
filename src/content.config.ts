@@ -35,6 +35,9 @@ const post = defineCollection({
 				.optional()
 				.transform((str) => (str ? new Date(str) : undefined)),
 			pinned: z.boolean().default(false),
+			// 非空时启用正文加密：构建期 AES-256-GCM 加密，浏览器输密码本地解密
+			password: z.string().optional().default(""),
+			passwordHint: z.string().optional().default(""),
 		}),
 });
 
