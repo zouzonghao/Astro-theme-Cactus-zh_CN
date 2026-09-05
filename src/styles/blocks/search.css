@@ -13,6 +13,33 @@
 	--pf-icon-search: url("data:image/svg+xml,%3Csvg fill='none' height='16' width='16' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg' %3E%3Cpath d='M0 0h24v24H0z' stroke='none'%3E%3C/path%3E%3Cpath d='M3 10a7 7 0 1 0 14 0 7 7 0 1 0-14 0M21 21l-6-6'%3E%3C/path%3E%3C/svg%3E");
 }
 
+/* component-ui 只能在 HTML 解析后由 module 脚本加载，升级前
+ * <pagefind-modal-trigger> 是零尺寸空标签（图标闪烁的根源）。
+ * 用 :not(:defined) 在首帧渲染一个与 .pf-trigger-btn 同视觉的静态占位图标，
+ * 元素升级后本规则自动失效，由真实按钮无缝接管。 */
+pagefind-modal-trigger:not(:defined) {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: calc(var(--spacing) * 9);
+	height: calc(var(--spacing) * 9);
+	background-color: var(--color-global-text);
+	-webkit-mask-image: var(--pf-icon-search);
+	-webkit-mask-position: center;
+	-webkit-mask-repeat: no-repeat;
+	-webkit-mask-size: calc(var(--spacing) * 7);
+	mask-image: var(--pf-icon-search);
+	mask-position: center;
+	mask-repeat: no-repeat;
+	mask-size: calc(var(--spacing) * 7);
+
+	@media (hover: hover) {
+		&:hover {
+			background-color: var(--color-accent);
+		}
+	}
+}
+
 .pf-trigger-btn {
 	--pf-background: #0000;
 	--pf-border-focus: #0000;

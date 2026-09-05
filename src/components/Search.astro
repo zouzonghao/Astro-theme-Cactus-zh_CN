@@ -3,9 +3,9 @@ import "@/styles/blocks/search.css";
 ---
 
 <script>
-	// 搜索图标由 @pagefind/component-ui 在客户端渲染，必须尽早加载，
-	// 否则跨页导航后图标会比页面晚出现（闪烁）。开发模式下无 pagefind
-	// 索引，保持跳过。
+	// 尽早加载 @pagefind/component-ui，缩短 search.css 里 :not(:defined)
+	// 静态占位图标的存续时间。module 脚本必然晚于首帧执行，防闪烁
+	// 由占位符负责，这里不承担。开发模式下无 pagefind 索引，保持跳过。
 	if (import.meta.env.PROD) {
 		import("@pagefind/component-ui");
 	}
