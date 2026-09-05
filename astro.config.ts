@@ -11,6 +11,7 @@ import robotsTxt from "astro-robots-txt";
 import webmanifest from "astro-webmanifest";
 import { satteriAdmonitionsPlugin } from "./src/plugins/admonitions";
 import { satteriGithubCardPlugin } from "./src/plugins/github-cards";
+import { satteriKatexPlugin } from "./src/plugins/katex";
 import {
 	satteriAutolinkHeadingsPlugin,
 	satteriExternalLinksPlugin,
@@ -67,12 +68,13 @@ export default defineConfig({
 	],
 	markdown: {
 		processor: satteri({
-			features: { directive: true },
+			features: { directive: true, math: true },
 			mdastPlugins: [
 				satteriUnwrapImagesPlugin(),
 				satteriReadingTimePlugin(),
 				satteriGithubCardPlugin(),
 				satteriAdmonitionsPlugin(),
+				satteriKatexPlugin(),
 			],
 			hastPlugins: [
 				satteriHeadingIdsPlugin(),

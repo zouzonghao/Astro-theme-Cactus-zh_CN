@@ -1,0 +1,7 @@
+/* 超宽块级公式横向滚动，避免撑破正文布局 */
+.katex-display {
+	max-width: 100%;
+	overflow-x: auto;
+	overflow-y: hidden;
+	padding: 2px 0;
+}

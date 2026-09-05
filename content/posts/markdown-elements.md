@@ -136,6 +136,30 @@ function demo() {
 
 [Expressive Code](https://expressive-code.com/) 能做的远不止上面这些，还提供了丰富的[自定义配置](https://expressive-code.com/reference/configuration/)。
 
+## 数学公式
+
+行内公式用单美元包裹，如质能方程 $E = mc^2$，或者欧拉恒等式 $e^{i\pi} + 1 = 0$。
+
+块级公式用双美元包裹，独立成段并居中显示：
+
+$$
+\int_{-\infty}^{\infty} e^{-x^2} \, dx = \sqrt{\pi}
+$$
+
+化学方程式由 mhchem 扩展支持，使用 `\ce{}` 书写：
+
+$$
+\ce{CH4 + 2O2 -> CO2 + 2H2O}
+$$
+
+水分子 $\ce{H2O}$ 也可以行内书写，物理单位用 `\pu{}`，如标准摩尔熵 $S^\circ = \pu{205 J/(K mol)}$。
+
+超宽的公式可以横向滚动，不会撑破布局：
+
+$$
+\sum_{n=1}^{\infty} \frac{1}{n^2} = \frac{\pi^2}{6} \quad \prod_{p \in \mathbb{P}} \frac{1}{1 - p^{-2}} = \frac{\pi^2}{6} \quad \int_0^1 \frac{\ln(1+x)}{x} \, dx = \frac{\pi^2}{12}
+$$
+
 ## 表格
 
 | 配置项 | 说明                                                     |
