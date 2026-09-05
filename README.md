@@ -5,7 +5,7 @@
   Astro 仙人掌
 </h1>
 
-Astro 仙人掌 是一个基于 Astro 框架的博客主题，使用 Astro 和 TailwindCSS，是 Astro Cactus 主题的中文汉化版。同时在原项目基础上集成 CMS 实现 web 在线编辑、发布：后台界面使用 [Sveltia CMS](https://github.com/sveltia/sveltia-cms)（Decap CMS 的现代开源替代前端，开箱即用的深色模式、更快的加载速度、更好的编辑体验），GitHub OAuth 认证由项目内置的 `/oauth` 路由提供。
+Astro 仙人掌 是一个基于 Astro 框架的博客主题，使用 Astro 和 TailwindCSS，是 Astro Cactus 主题的中文汉化版。同时在原项目基础上集成 CMS 实现 web 在线编辑、发布：后台界面使用 [Sveltia CMS](https://github.com/sveltia/sveltia-cms)（Decap CMS 的现代开源替代前端，开箱即用的深色模式、更快的加载速度、更好的编辑体验），并采用作者维护的[定制 fork](https://github.com/zouzonghao/sveltia-cms)，为图片上传增加了浏览器内压缩、去重、粘贴等增强（见下方「后台功能」）。GitHub OAuth 认证由项目内置的 `/oauth` 路由提供。
 
 原主题地址: https://github.com/chrismwilliams/astro-theme-cactus
 
@@ -69,12 +69,28 @@ cd your-repo
 
 ## 后台功能 📝
 
-- **博文**：标题、简介、发布日期、标签、草稿、置顶、正文（Markdown 编辑器，可插入图片）
+- **博文**：标题、简介（可选，留空自动带默认值）、发布日期、标签、草稿、置顶、正文（Markdown 编辑器，可插入图片）
 - **笔记**：短内容随手记
 - **标签页**：为标签写介绍页
 - **页面**：关于页（标题、SEO 描述、Markdown 正文）
 - **站点设置**：站点标题、作者、站点描述、网站地址（url）、页头 Logo 开关、导航菜单（保存后重新构建即全站生效）
 - 上传的图片存放在仓库 `public/assets/images/` 目录
+
+### 图片上传增强（定制 fork）
+
+后台加载的 Sveltia CMS 来自[定制 fork](https://github.com/zouzonghao/sveltia-cms)（`cactus` 分支，按版本 tag 经 jsDelivr CDN 分发），相比官方版本增加了：
+
+- **浏览器内压缩**：直传图片自动压缩为 AVIF（体积远小于原 JPG/PNG，画质基本无损），大图自动缩到最长边 2048，动图 GIF 自动跳过压缩以免丢失动画
+- **内容去重**：上传前按文件内容计算哈希，与仓库已有图片完全相同的自动跳过，不再产生重复文件和重复提交
+- **粘贴上传**：桌面端在后台上传弹窗或确认框里直接 Ctrl/Cmd+V 粘贴截图，自动按时间戳命名
+- **批量上传**：确认框里可「添加更多文件」继续追加，多张图片合并为一次提交（只触发一次站点构建）
+- **移动端相册直开**：手机端右上角悬浮的图片按钮直接调起系统相册选图（而不是文件管理器）
+- **压缩档位可调**：后台 设置 → 媒体 里可选 自动/高质量(70)/均衡(60)/高压缩(50)，即时生效，无需等站点重建
+
+以上增强同样作用于文章编辑器里插图：压缩、去重、档位与媒体库完全一致，插图与文章保存在同一次提交里。
+
+> [!NOTE]
+> 定制 fork 基于 Sveltia CMS v0.205.4，改动清单与跟上主线的方法见 fork 仓库的 `CACTUS-FORK.md`。若换回官方版本（改 `public/admin/index.html` 的 script 地址），会失去上述增强，但配置、登录方式、仓库内容完全兼容。
 
 > [!NOTE]
 > - 勾选"草稿"的文章不会出现在网站上，适合写到一半的内容
@@ -132,7 +148,7 @@ cd your-repo
 
 ### 后台界面是怎么加载的
 
-`/admin` 页面本身只是一个十几行的空壳 HTML（`public/admin/index.html`），你在后台看到的所有界面都打包在从 CDN 加载的一个 JS 文件里。Sveltia CMS 是 Decap CMS 的现代化替代品：它读取同一份 `config.yml`、对接同一套 GitHub API、使用同一套登录协议。想换成 Decap 官方界面，把 `index.html` 里的 script 下载地址换掉即可，配置、登录方式、仓库内容都不受影响。
+`/admin` 页面本身只是一个十几行的空壳 HTML（`public/admin/index.html`），你在后台看到的所有界面都打包在从 CDN 加载的一个 JS 文件里。本主题默认加载的是作者维护的 Sveltia CMS 定制 fork（含上文「图片上传增强」），同样读取 `config.yml`、对接同一套 GitHub API、使用同一套登录协议。想换成官方 Sveltia 或 Decap 界面，把 `index.html` 里的 script 地址换掉即可，配置、登录方式、仓库内容都不受影响（只是失去 fork 的增强功能）。
 
 ## 常见问题 ❓
 
@@ -149,7 +165,7 @@ Vercel 有时使用 `astro build` 作为构建命令而跳过 `postbuild` 脚本
 和发布文章一样，设置保存后需要等 Vercel 完成一次重新构建（约半分钟到一分钟）才会生效，刷新前请稍等。
 
 **想换 Sveltia CMS 版本？**
-编辑 `public/admin/index.html` 中的 unpkg 地址，固定版本可避免 0.x 阶段自动升级引入变化。
+编辑 `public/admin/index.html` 中的 script 地址。默认指向作者维护的定制 fork（按固定 tag 从 jsDelivr 加载，含图片压缩/去重/粘贴等增强）；换成官方 `@sveltia/cms` 的 unpkg 地址即可回到官方版本，会失去增强功能，但配置、登录、数据完全兼容。
 
 ## License
 
