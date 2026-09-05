@@ -17,37 +17,54 @@ const encryptedData = encryptContent(rawHtml, password, slug);
 ---
 
 <div id="encrypted-container" data-encrypted={encryptedData} data-slug={slug}>
-	<div id="password-ui" class="flex flex-col items-center gap-4 py-16">
-		<Icon
-			aria-hidden="true"
-			class="h-12 w-12 text-accent"
-			focusable="false"
-			name="mdi:lock-outline"
-		/>
-		<h2 class="text-accent-2 dark:text-global-text text-lg font-semibold">
-			本文已加密
-		</h2>
-		<p class="text-muted m-0 text-center">输入访问密码查看正文</p>
-		{hint && <p class="text-muted m-0 text-center text-xs">提示：{hint}</p>}
-		<form class="flex w-full max-w-xs flex-col gap-2" id="password-form">
-			<input
-				autocomplete="off"
-				class="focus:border-link dark:border-zinc-600 w-full rounded-md border border-zinc-300 bg-transparent px-3 py-2 outline-none transition-colors"
-				id="password-input"
-				name="password"
-				placeholder="密码"
-				type="password"
+	<div
+		id="password-ui"
+		class="flex min-h-[24rem] items-center justify-center py-16"
+	>
+		<div
+			class="border-muted/50 dark:border-zinc-700 mx-auto flex w-full max-w-md flex-col items-center gap-5 rounded-xl border border-dashed px-8 py-12 text-center"
+		>
+			<Icon
+				aria-hidden="true"
+				class="text-accent h-14 w-14"
+				focusable="false"
+				name="mdi:lock-outline"
 			/>
-			<button
-				class="hover:border-link dark:border-zinc-600 dark:hover:border-link rounded-md border border-zinc-300 px-3 py-2 transition-colors"
-				type="submit"
-			>
-				解锁
-			</button>
-		</form>
-		<p class="m-0 hidden text-xs text-red-500" id="password-error">
-			密码错误，请重试
-		</p>
+			<div class="flex flex-col gap-1">
+				<h2 class="text-accent-2 dark:text-global-text m-0 text-xl font-semibold">
+					本文已加密
+				</h2>
+				<p class="text-muted m-0 text-xs">输入访问密码查看正文</p>
+			</div>
+			{hint && (
+				<p
+					class="text-muted bg-zinc-100 dark:bg-zinc-700/50 m-0 rounded-md px-3 py-1.5 text-xs"
+				>
+					提示：{hint}
+				</p>
+			)}
+			<form class="mx-auto flex w-full max-w-xs flex-col gap-2" id="password-form">
+				<div class="flex w-full gap-2">
+					<input
+						autocomplete="off"
+						class="focus:border-link dark:border-zinc-600 dark:placeholder-zinc-500 min-w-0 flex-1 rounded-md border border-zinc-300 bg-transparent px-3 py-2 outline-none transition-colors"
+						id="password-input"
+						name="password"
+						placeholder="请输入密码"
+						type="password"
+					/>
+					<button
+						class="bg-accent dark:text-zinc-900 shrink-0 rounded-md px-4 py-2 font-medium text-white transition-opacity hover:opacity-80 active:opacity-70"
+						type="submit"
+					>
+						解锁
+					</button>
+				</div>
+				<p class="m-0 hidden text-xs text-red-500" id="password-error">
+					密码错误，请重试
+				</p>
+			</form>
+		</div>
 	</div>
 	<!-- 解密后的正文注入位置 -->
 	<div class="hidden" id="decrypted-content"></div>

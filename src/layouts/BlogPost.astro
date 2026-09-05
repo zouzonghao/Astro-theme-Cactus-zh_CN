@@ -50,7 +50,11 @@ const readingTime: string = remarkPluginFrontmatter.readingTime;
 				)
 			}
 			<div
-				class="prose prose-sm prose-headings:font-semibold prose-headings:text-accent-2 prose-headings:before:absolute prose-headings:before:-ms-4 prose-headings:before:text-muted prose-headings:hover:before:text-accent sm:prose-headings:before:content-['#'] sm:prose-th:before:content-none"
+				class:list={[
+					"prose prose-sm prose-headings:font-semibold prose-headings:text-accent-2 prose-headings:before:absolute prose-headings:before:-ms-4 prose-headings:before:text-muted prose-headings:hover:before:text-accent sm:prose-headings:before:content-['#'] sm:prose-th:before:content-none",
+					// 加密态正文容器无文本撑宽且隐藏目录后贴左，须伸展并居中，否则密码卡片和解密后的正文偏在一侧
+					encrypted && "mx-auto w-full flex-1",
+				]}
 			>
 				{
 					encrypted ? (
