@@ -10,27 +10,17 @@ pluginFramesTexts.addLocale("zh-CN", {
 	copyButtonCopied: "已复制！",
 });
 
-/** 社交链接（SocialList.astro 渲染为图标） */
-export interface SocialLink {
-	/** 无障碍读出的友好名称，如 Github */
-	friendlyName: string;
-	/** 跳转链接 */
-	link: string;
-	/** astro-icon 图标名（仅安装了 @iconify-json/mdi 图标集），如 mdi:github */
-	name: string;
-}
-
 /**
  * CMS 后台（/admin →「站点设置」）编辑的数据文件 content/settings/site.json，
  * 构建时读取并与下方各默认值合并，字段缺省时回退默认值。
  */
 interface SiteSettings {
+	url?: string;
 	title?: string;
 	author?: string;
 	description?: string;
 	showLogo?: boolean;
 	menu?: { path: string; title: string }[];
-	socialLinks?: SocialLink[];
 }
 
 function loadSiteSettings(): SiteSettings {
@@ -49,7 +39,7 @@ function loadSiteSettings(): SiteSettings {
 const settings = loadSiteSettings();
 
 const defaultConfig: SiteConfig = {
-	// ! 请替换为你自己的网站地址（不带末尾斜杠也可），用于 astro.config.ts、RSS、sitemap 等
+	// 网站地址（后台「站点设置」可修改，不带末尾斜杠也可），用于 astro.config.ts、RSS、sitemap 等
 	url: "https://cactus.343700.xyz/",
 	/*
 		- 用作 <title> 与 og:site_name（src/components/BaseHead.astro）
@@ -81,6 +71,7 @@ const defaultConfig: SiteConfig = {
 
 export const siteConfig: SiteConfig = {
 	...defaultConfig,
+	url: settings.url ?? defaultConfig.url,
 	title: settings.title ?? defaultConfig.title,
 	author: settings.author ?? defaultConfig.author,
 	description: settings.description ?? defaultConfig.description,
@@ -110,19 +101,6 @@ const defaultMenuLinks: { path: string; title: string }[] = [
 export const menuLinks: { path: string; title: string }[] = settings.menu?.length
 	? settings.menu
 	: defaultMenuLinks;
-
-// 页脚「在这里找到我」的社交链接（后台「站点设置 → 社交链接」可覆盖）
-const defaultSocialLinks: SocialLink[] = [
-	{
-		friendlyName: "Github",
-		link: "https://github.com/chrismwilliams/astro-cactus",
-		name: "mdi:github",
-	},
-];
-
-export const socialLinks: SocialLink[] = settings.socialLinks?.length
-	? settings.socialLinks
-	: defaultSocialLinks;
 
 // https://expressive-code.com/reference/configuration/
 export const expressiveCodeOptions: AstroExpressiveCodeOptions = {

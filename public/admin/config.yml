@@ -88,6 +88,13 @@ collections:
           - { label: "站点标题", name: "title", widget: "string", required: true }
           - { label: "作者", name: "author", widget: "string", required: true }
           - { label: "站点描述（用于 SEO 与分享摘要）", name: "description", widget: "text", required: true }
+          - {
+              label: "网站地址",
+              name: "url",
+              widget: "string",
+              required: true,
+              hint: "完整域名地址，用于 RSS、sitemap、OG 分享链接，如 https://example.com/",
+            }
           - { label: "显示页头 Logo", name: "showLogo", widget: "boolean", default: true, required: false }
           - label: 导航菜单
             label_singular: 菜单项
@@ -105,20 +112,16 @@ collections:
                   required: true,
                   hint: "站内路径，如 /about/",
                 }
-          - label: 社交链接
-            label_singular: 链接项
-            name: socialLinks
-            widget: list
-            required: false
-            summary: "{{fields.friendlyName}}"
-            hint: 页脚「在这里找到我」的图标列表，留空则使用代码中的默认链接
-            fields:
-              - { label: "名称", name: "friendlyName", widget: "string", required: true }
-              - { label: "链接", name: "link", widget: "string", required: true }
-              - {
-                  label: "图标",
-                  name: "name",
-                  widget: "string",
-                  required: true,
-                  hint: "Material Design 图标名，如 mdi:github、mdi:rss，完整列表见 https://pictogrammers.com/library/mdi/",
-                }
+
+  # 单独页面内容（如关于页），正文支持 Markdown
+  - name: "page"
+    label: "页面"
+    label_singular: "页面"
+    files:
+      - name: "about"
+        label: "关于页"
+        file: "content/pages/about.md"
+        fields:
+          - { label: "页面标题", name: "title", widget: "string", required: true }
+          - { label: "描述（可选，用于 SEO）", name: "description", widget: "string", required: false }
+          - { label: "正文", name: "body", widget: "markdown", required: false }

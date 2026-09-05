@@ -56,4 +56,12 @@ const tag = defineCollection({
 	}),
 });
 
-export const collections = { post, note, tag };
+// 单独页面（如关于页），由后台「页面」集合编辑
+const page = defineCollection({
+	loader: glob({ base: "./content/pages", pattern: "**/*.{md,mdx}" }),
+	schema: baseSchema.extend({
+		description: z.string().optional(),
+	}),
+});
+
+export const collections = { post, note, tag, page };
