@@ -1,22 +1,12 @@
 ---
 import { Icon } from "astro-icon/components";
+import { socialLinks } from "@/site.config";
 
 /** 
 	Uses https://www.astroicon.dev/getting-started/
 	Find icons via guide: https://www.astroicon.dev/guides/customization/#open-source-icon-sets
 	Only installed pack is: @iconify-json/mdi
 */
-const socialLinks: {
-	friendlyName: string;
-	link: string;
-	name: string;
-}[] = [
-	{
-		friendlyName: "Github",
-		link: "https://github.com/chrismwilliams/astro-cactus",
-		name: "mdi:github",
-	},
-];
 ---
 
 <div class="flex flex-wrap items-end gap-x-2">

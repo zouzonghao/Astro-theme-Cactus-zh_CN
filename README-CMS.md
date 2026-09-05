@@ -75,6 +75,7 @@ backend:
 - **博文**：标题、简介、发布日期、标签、草稿、置顶、正文（Markdown 编辑器，可插入图片）
 - **笔记**：短内容随手记
 - **标签页**：为标签写介绍页
+- **站点设置**：站点标题、作者、站点描述、页头 Logo 开关、导航菜单、社交链接（保存后重新构建即全站生效）
 - 上传的图片存放在仓库 `public/assets/images/` 目录
 
 > [!NOTE]
@@ -108,10 +109,10 @@ Vercel 有时使用 `astro build` 作为构建命令而跳过 `postbuild` 脚本
 
 ## 个性化清单
 
-上线前建议修改以下内容（均有中文 TODO 注释）：
+上线前建议修改以下内容：
 
-- [ ] `src/site.config.ts`：站点名（title）、作者（author）、简介（description）、网站地址（url）
+- [ ] 站点标题、作者、站点描述、导航菜单、社交链接、页头 Logo 开关：直接在后台「站点设置」中编辑即可，无需改代码
+- [ ] `src/site.config.ts`：网站地址（url，用于 RSS / sitemap / OG 链接）
 - [ ] `src/pages/about.astro`：关于页内容
 - [ ] `src/pages/index.astro`：首页的自我介绍
-- [ ] `src/components/SocialList.astro`：社交链接（默认指向主题仓库）
 - [ ] 删除 `content/` 下的示例文章，开始写你自己的内容

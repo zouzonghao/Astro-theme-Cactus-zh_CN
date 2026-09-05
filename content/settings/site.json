@@ -1,0 +1,19 @@
+{
+	"title": "仙人掌博客",
+	"author": "仙人掌",
+	"description": "一个基于 Astro 的个人博客，记录技术与生活",
+	"showLogo": true,
+	"menu": [
+		{ "title": "首页", "path": "/" },
+		{ "title": "关于", "path": "/about/" },
+		{ "title": "文章", "path": "/posts/" },
+		{ "title": "笔记", "path": "/notes/" }
+	],
+	"socialLinks": [
+		{
+			"friendlyName": "Github",
+			"link": "https://github.com/chrismwilliams/astro-cactus",
+			"name": "mdi:github"
+		}
+	]
+}

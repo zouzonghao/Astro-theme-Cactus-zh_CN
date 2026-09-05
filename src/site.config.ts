@@ -1,7 +1,5 @@
-import {
-	pluginFramesTexts,
-	type AstroExpressiveCodeOptions,
-} from "astro-expressive-code";
+import { readFileSync } from "node:fs";
+import { type AstroExpressiveCodeOptions, pluginFramesTexts } from "astro-expressive-code";
 import type { SiteConfig } from "@/types";
 
 // 汉化 Expressive Code 代码块的内置文案（复制按钮等）
@@ -12,29 +10,64 @@ pluginFramesTexts.addLocale("zh-CN", {
 	copyButtonCopied: "已复制！",
 });
 
-export const siteConfig: SiteConfig = {
+/** 社交链接（SocialList.astro 渲染为图标） */
+export interface SocialLink {
+	/** 无障碍读出的友好名称，如 Github */
+	friendlyName: string;
+	/** 跳转链接 */
+	link: string;
+	/** astro-icon 图标名（仅安装了 @iconify-json/mdi 图标集），如 mdi:github */
+	name: string;
+}
+
+/**
+ * CMS 后台（/admin →「站点设置」）编辑的数据文件 content/settings/site.json，
+ * 构建时读取并与下方各默认值合并，字段缺省时回退默认值。
+ */
+interface SiteSettings {
+	title?: string;
+	author?: string;
+	description?: string;
+	showLogo?: boolean;
+	menu?: { path: string; title: string }[];
+	socialLinks?: SocialLink[];
+}
+
+function loadSiteSettings(): SiteSettings {
+	try {
+		// astro dev/build/preview 与 Vercel 构建的 cwd 均为项目根目录；
+		// 不能用 new URL(..., import.meta.url)，Vite 打包时会把它重写到产物目录导致读不到源文件
+		return JSON.parse(
+			readFileSync(`${process.cwd()}/content/settings/site.json`, "utf8"),
+		) as SiteSettings;
+	} catch {
+		// 文件不存在或格式损坏时使用默认值，保证构建不中断
+		return {};
+	}
+}
+
+const settings = loadSiteSettings();
+
+const defaultConfig: SiteConfig = {
 	// ! 请替换为你自己的网站地址（不带末尾斜杠也可），用于 astro.config.ts、RSS、sitemap 等
-	url: "https://astro-cactus.chriswilliams.dev/",
+	url: "https://cactus.343700.xyz/",
 	/*
 		- 用作 <title> 与 og:site_name（src/components/BaseHead.astro）
 		- webmanifest 的 name（astro.config.ts）
 		- 页头链接文字（src/components/layout/Header.astro）
 		- 页脚文字（src/components/layout/Footer.astro）
 	*/
-	// TODO：改成你的站点名
 	title: "仙人掌博客",
 	// 用于页脚版权（Footer.astro）、meta author 与 OG 分享图署名
-	// TODO：改成你的名字/昵称
 	author: "仙人掌",
 	// 用作默认 meta description 与 webmanifest description
-	// TODO：改成你的站点简介
 	description: "一个基于 Astro 的个人博客，记录技术与生活",
 	// HTML lang 属性（Base.astro），同时决定全站日期格式（utils/date.ts）、
 	// webmanifest 语言与 Pagefind 搜索界面语言
 	lang: "zh-CN",
 	// og:locale meta 属性（BaseHead.astro）
 	ogLocale: "zh_CN",
-	// 是否在页头显示 Logo 文字
+	// 是否在页头显示 Logo 文字（后台「站点设置」可开关）
 	showLogo: true,
 	// 日期格式化参数（src/utils/date.ts），跟随 lang="zh-CN" 输出如「2026年9月5日」
 	date: {
@@ -46,8 +79,16 @@ export const siteConfig: SiteConfig = {
 	},
 };
 
-// 用于生成页头与页脚的导航链接。
-export const menuLinks: { path: string; title: string }[] = [
+export const siteConfig: SiteConfig = {
+	...defaultConfig,
+	title: settings.title ?? defaultConfig.title,
+	author: settings.author ?? defaultConfig.author,
+	description: settings.description ?? defaultConfig.description,
+	showLogo: settings.showLogo ?? defaultConfig.showLogo,
+};
+
+// 用于生成页头与页脚的导航链接（后台「站点设置 → 导航菜单」可覆盖）
+const defaultMenuLinks: { path: string; title: string }[] = [
 	{
 		path: "/",
 		title: "首页",
@@ -65,6 +106,23 @@ export const menuLinks: { path: string; title: string }[] = [
 		title: "笔记",
 	},
 ];
+
+export const menuLinks: { path: string; title: string }[] = settings.menu?.length
+	? settings.menu
+	: defaultMenuLinks;
+
+// 页脚「在这里找到我」的社交链接（后台「站点设置 → 社交链接」可覆盖）
+const defaultSocialLinks: SocialLink[] = [
+	{
+		friendlyName: "Github",
+		link: "https://github.com/chrismwilliams/astro-cactus",
+		name: "mdi:github",
+	},
+];
+
+export const socialLinks: SocialLink[] = settings.socialLinks?.length
+	? settings.socialLinks
+	: defaultSocialLinks;
 
 // https://expressive-code.com/reference/configuration/
 export const expressiveCodeOptions: AstroExpressiveCodeOptions = {
