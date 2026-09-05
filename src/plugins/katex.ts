@@ -10,10 +10,12 @@ export function satteriKatexPlugin(): MdastPluginDefinition {
 	return {
 		name: "cactus-katex",
 		math(node) {
-			return { rawHtml: katex.renderToString(node.value, { ...options, displayMode: true }) };
+			// 返回 mdast html 节点：块级位置直接输出，不会被包进 <p>
+			return { type: "html", value: katex.renderToString(node.value, { ...options, displayMode: true }) };
 		},
 		inlineMath(node) {
-			return { rawHtml: katex.renderToString(node.value, { ...options, displayMode: false }) };
+			// 行内位置不能用 rawHtml——它按块级处理会生成嵌套 <p>，导致公式被拆成独立段落
+			return { type: "html", value: katex.renderToString(node.value, { ...options, displayMode: false }) };
 		},
 	};
 }
