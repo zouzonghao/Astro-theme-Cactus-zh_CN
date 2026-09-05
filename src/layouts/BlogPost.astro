@@ -1,9 +1,8 @@
 ---
 import { type CollectionEntry, render } from "astro:content";
-
-import EncryptedContent from "@/components/EncryptedContent.astro";
 import Masthead from "@/components/blog/Masthead.astro";
 import TOC from "@/components/blog/TOC.astro";
+import EncryptedContent from "@/components/EncryptedContent.astro";
 
 import BaseLayout from "./Base.astro";
 
@@ -12,8 +11,7 @@ interface Props {
 }
 
 const { post } = Astro.props;
-const { ogImage, title, description, updatedDate, publishDate, password, passwordHint } =
-	post.data;
+const { ogImage, title, description, updatedDate, publishDate, password, passwordHint } = post.data;
 const articleDate = updatedDate?.toISOString() ?? publishDate.toISOString();
 const encrypted = !!password;
 const { headings, remarkPluginFrontmatter } = await render(post);

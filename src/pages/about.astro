@@ -8,11 +8,16 @@ if (!about) {
 	throw new Error("缺少 content/pages/about.md，请在后台「页面 → 关于页」中创建");
 }
 const { Content } = await render(about);
+// description 为可选字段，exactOptionalPropertyTypes 下需条件展开避免传入 undefined
+const meta = {
+	title: about.data.title,
+	...(about.data.description ? { description: about.data.description } : {}),
+};
 ---
 
-<PageLayout meta={{ title: about.data.title, description: about.data.description }}>
+<PageLayout meta={meta}>
 	<h1 class="title mb-12">{about.data.title}</h1>
-	<div class="prose prose-sm prose-cactus max-w-none">
-		<Content />
-	</div>
-</PageLayout>
+		<div class="prose prose-sm prose-cactus max-w-none">
+			<Content />
+		</div>
+	</PageLayout>

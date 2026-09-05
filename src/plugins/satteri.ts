@@ -47,7 +47,10 @@ export function satteriReadingTimePlugin(): () => MdastPluginDefinition {
 				const readingTime = getReadingTime(textOnPage);
 
 				// readingTime.text 默认为英文（如 "3 min read"），改为中文展示
-				ctx.data.astro!.frontmatter.readingTime = `约 ${Math.ceil(readingTime.minutes)} 分钟阅读`;
+				const astro = ctx.data.astro;
+				if (astro) {
+					astro.frontmatter.readingTime = `约 ${Math.ceil(readingTime.minutes)} 分钟阅读`;
+				}
 			},
 		};
 	};

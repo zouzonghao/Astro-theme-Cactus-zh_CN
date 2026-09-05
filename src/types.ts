@@ -5,8 +5,8 @@ export interface SiteConfig {
 	};
 	description: string;
 	lang: string;
-  ogLocale: string;
-  showLogo: boolean;
+	ogLocale: string;
+	showLogo: boolean;
 	title: string;
 	url: string;
 }

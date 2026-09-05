@@ -9,7 +9,9 @@
 			"!**/.vercel",
 			"!**/.netlify",
 			"!**/.vscode",
-			"!**/.astro"
+			"!**/.astro",
+			"!content",
+			"!public"
 		]
 	},
 	"formatter": {
