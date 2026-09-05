@@ -9,14 +9,15 @@ backend:
 media_folder: public/assets/images # 上传的图片在仓库中的存放位置
 public_folder: /assets/images # 上传图片的访问路径前缀
 
-# 在 CMS 内直传的图片自动压缩为 WebP（浏览器内完成）；AVIF 请用 /admin/upload 上传页
+# 在 CMS 内直传的图片自动压缩为 AVIF（Squoosh WASM 在浏览器内完成，大图需等待数秒）
+# 输出格式支持 avif / webp / jpeg；动图 GIF 默认跳过压缩以免丢失动画帧
 media_libraries:
   default:
     config:
       transformations:
         raster_image:
-          format: webp # Sveltia 内置压缩仅支持 webp
-          quality: 80
+          format: avif # 压缩率最高；追求速度可换 webp
+          quality: 60
           width: 2048 # 超出自动缩小
           height: 2048
 
