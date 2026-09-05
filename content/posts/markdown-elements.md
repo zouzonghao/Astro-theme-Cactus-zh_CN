@@ -165,7 +165,7 @@ function demo() {
 
 ## 图片
 
-同目录下的图片：`content/posts/markdown-elements/logo.png`
+同目录下的图片：`content/posts/logo.png`
 
 ![仙人掌主题 logo](./logo.png)
 

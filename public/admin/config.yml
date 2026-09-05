@@ -1,6 +1,6 @@
 backend:
   name: github
-  repo: zouzonghao/Astro-theme-Cactus-zh_CN/tree # 1、改成你的 GitHub 仓库，如 zouzonghao/astro-cactus
+  repo: zouzonghao/Astro-theme-Cactus-zh_CN # 1、改成你的 GitHub 仓库，如 zouzonghao/astro-cactus
   branch: feature # 2、改成你的分支（一般为 main）
   base_url: https://cactus.343700.xyz/ # 3、改成你的线上域名（不带末尾斜杠）
   site_domain: cactus.343700.xyz # 4、改成你的线上域名（用于后台"查看站点"链接，可留空）
