@@ -21,6 +21,10 @@ media_libraries:
           width: 2048 # 超出自动缩小
           height: 2048
 
+# 清空的选填字段（如简介）保存时不写入 frontmatter，避免产出 description: '' 空串
+output:
+  omit_empty_optional_fields: true
+
 collections:
   - name: "post"
     label: "博文"
@@ -38,6 +42,7 @@ collections:
         direction: descending
     fields:
       - { label: "标题", name: "title", widget: "string", required: true }
+      - { label: "正文", name: "body", widget: "markdown" }
       - {
           label: "简介",
           name: "description",
@@ -54,6 +59,7 @@ collections:
           date_format: "YYYY-MM-DD",
           time_format: false,
           required: true,
+          default: "{{now}}", # 新建文章自动填充今天
         }
       - { label: "标签", name: "tags", widget: "list", required: false, default: [] }
       - { label: "草稿", name: "draft", widget: "boolean", default: false, required: false }
@@ -72,7 +78,6 @@ collections:
           widget: "string",
           required: false,
         }
-      - { label: "正文", name: "body", widget: "markdown" }
 
   - name: "note"
     label: "笔记"
@@ -89,6 +94,7 @@ collections:
         direction: descending
     fields:
       - { label: "标题", name: "title", widget: "string", required: true }
+      - { label: "正文", name: "body", widget: "markdown" }
       - { label: "简介", name: "description", widget: "string", required: false }
       - {
           label: "发布日期",
@@ -98,8 +104,8 @@ collections:
           date_format: "YYYY-MM-DD",
           time_format: "HH:mm:ss",
           required: true,
+          default: "{{now}}", # 新建笔记自动填充当前时间
         }
-      - { label: "正文", name: "body", widget: "markdown" }
 
   - name: "tag"
     label: "标签页"

@@ -13,8 +13,8 @@ interface Props {
 
 const { post } = Astro.props;
 const { ogImage, title, updatedDate, publishDate, password, passwordHint } = post.data;
-// 简介为可选字段，缺省时回退站点描述，保证 meta 与 OG 不为空
-const description = post.data.description ?? siteConfig.description;
+// 简介为可选字段，缺省或被清空（空串）时回退站点描述，保证 meta 与 OG 不为空
+const description = post.data.description || siteConfig.description;
 const articleDate = updatedDate?.toISOString() ?? publishDate.toISOString();
 const encrypted = !!password;
 const { headings, remarkPluginFrontmatter } = await render(post);
