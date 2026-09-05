@@ -20,8 +20,21 @@ export default {
 							borderLeftWidth: "0",
 						},
 						code: {
-							border: "1px dotted #666",
-							borderRadius: "2px",
+							color: "var(--color-code-text)",
+							backgroundColor: "var(--color-code-bg)",
+							padding: "2px 4px",
+							borderRadius: "4px",
+							fontSize: "0.9em",
+							fontWeight: "400",
+						},
+						"code::before": {
+							content: "none",
+						},
+						"code::after": {
+							content: "none",
+						},
+						"a code, h1 code, h2 code, h3 code, h4 code, blockquote code, thead th code": {
+							color: "var(--color-code-text)",
 						},
 						kbd: {
 							"&:where([data-theme='dark'], [data-theme='dark'] *)": {
@@ -50,19 +63,50 @@ export default {
 								},
 							},
 						},
-						/* Table */
-						"tbody tr": {
-							borderBottomWidth: "none",
-						},
-						tfoot: {
-							borderTop: "1px dashed #666",
+						/* Table（参考 glog 样式：内容自适应宽度并居中、圆角边框、宽表格可横向滚动） */
+						table: {
+							display: "block",
+							width: "max-content",
+							maxWidth: "100%",
+							marginInline: "auto",
+							marginTop: "1.8em",
+							marginBottom: "1.8em",
+							overflowX: "auto",
+							border: "1px solid var(--color-table-border)",
+							borderRadius: "8px",
+							fontSize: "0.9rem",
+							// 提高优先级以覆盖 typography 对首/末列表头去内边距的默认值及 sm 预设的零散 padding
+							"& th, & td": {
+								padding: "0.75em 1em",
+							},
+							// 覆盖 prose-headings:text-accent-2 对表头的染色，贴合 glog 的正文色表头
+							"& th": {
+								color: "inherit",
+							},
 						},
 						thead: {
 							borderBottomWidth: "none",
 						},
 						"thead th": {
-							borderBottom: "1px dashed #666",
-							fontWeight: "700",
+							color: "inherit",
+						},
+						"tbody tr": {
+							borderBottomWidth: "none",
+						},
+						"th, td": {
+							borderBottom: "1px solid var(--color-table-border)",
+							borderRight: "1px solid var(--color-table-border)",
+							textAlign: "center",
+						},
+						th: {
+							backgroundColor: "var(--color-table-th-bg)",
+							borderBottomWidth: "2px",
+						},
+						"td:last-child, th:last-child": {
+							borderRight: "none",
+						},
+						"tr:last-child td": {
+							borderBottom: "none",
 						},
 						'th[align="center"], td[align="center"]': {
 							"text-align": "center",
@@ -82,8 +126,7 @@ export default {
 				sm: {
 					css: {
 						code: {
-							fontSize: "var(--text-sm)",
-							fontWeight: "400",
+							fontSize: "0.9em",
 						},
 					},
 				},

@@ -46,6 +46,26 @@
 	inherits: true;
 	initial-value: oklch(55.27% 0.195 19.06);
 }
+@property --color-code-text {
+	syntax: "<color>";
+	inherits: true;
+	initial-value: #28a0c1;
+}
+@property --color-code-bg {
+	syntax: "<color>";
+	inherits: true;
+	initial-value: #edf8facf;
+}
+@property --color-table-border {
+	syntax: "<color>";
+	inherits: true;
+	initial-value: #bfc1c2bb;
+}
+@property --color-table-th-bg {
+	syntax: "<color>";
+	inherits: true;
+	initial-value: rgba(128, 128, 128, 0.08);
+}
 
 /* you could refactor below to use light-dark(), depending on your target audience */
 @theme {
@@ -56,6 +76,10 @@
 	--color-accent: oklch(55.27% 0.195 19.06);
 	--color-accent-2: oklch(18.15% 0 0);
 	--color-quote: oklch(55.27% 0.195 19.06);
+	--color-code-text: #28a0c1;
+	--color-code-bg: #edf8facf;
+	--color-table-border: #bfc1c2bb;
+	--color-table-th-bg: rgba(128, 128, 128, 0.08);
 }
 
 @layer base {
@@ -77,6 +101,10 @@
 			--color-accent: oklch(70.91% 0.1415 163.7);
 			--color-accent-2: oklch(94.66% 0 0);
 			--color-quote: oklch(94.8% 0.106 136.49);
+			--color-code-text: #ff7597;
+			--color-code-bg: #38232a;
+			--color-table-border: #333333;
+			--color-table-th-bg: rgba(255, 255, 255, 0.05);
 		}
 
 		--color-mode-transition-duration: 300ms;
@@ -89,7 +117,11 @@
 			--color-link var(--color-mode-transition-duration) var(--color-mode-transition-easing),
 			--color-accent var(--color-mode-transition-duration) var(--color-mode-transition-easing),
 			--color-accent-2 var(--color-mode-transition-duration) var(--color-mode-transition-easing),
-			--color-quote var(--color-mode-transition-duration) var(--color-mode-transition-easing);
+			--color-quote var(--color-mode-transition-duration) var(--color-mode-transition-easing),
+			--color-code-text var(--color-mode-transition-duration) var(--color-mode-transition-easing),
+			--color-code-bg var(--color-mode-transition-duration) var(--color-mode-transition-easing),
+			--color-table-border var(--color-mode-transition-duration) var(--color-mode-transition-easing),
+			--color-table-th-bg var(--color-mode-transition-duration) var(--color-mode-transition-easing);
 	}
 
 	:target {
