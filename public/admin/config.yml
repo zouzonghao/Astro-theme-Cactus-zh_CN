@@ -38,7 +38,14 @@ collections:
         direction: descending
     fields:
       - { label: "标题", name: "title", widget: "string", required: true }
-      - { label: "简介", name: "description", widget: "string", required: true }
+      - {
+          label: "简介",
+          name: "description",
+          widget: "string",
+          required: false,
+          default: "一篇有意思的文章",
+          hint: 摘要/SEO 描述，懒得写就保留默认,
+        }
       - {
           label: "发布日期",
           name: "publishDate",

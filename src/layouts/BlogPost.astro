@@ -3,6 +3,7 @@ import { type CollectionEntry, render } from "astro:content";
 import Masthead from "@/components/blog/Masthead.astro";
 import TOC from "@/components/blog/TOC.astro";
 import EncryptedContent from "@/components/EncryptedContent.astro";
+import { siteConfig } from "@/site.config";
 
 import BaseLayout from "./Base.astro";
 
@@ -11,7 +12,9 @@ interface Props {
 }
 
 const { post } = Astro.props;
-const { ogImage, title, description, updatedDate, publishDate, password, passwordHint } = post.data;
+const { ogImage, title, updatedDate, publishDate, password, passwordHint } = post.data;
+// 简介为可选字段，缺省时回退站点描述，保证 meta 与 OG 不为空
+const description = post.data.description ?? siteConfig.description;
 const articleDate = updatedDate?.toISOString() ?? publishDate.toISOString();
 const encrypted = !!password;
 const { headings, remarkPluginFrontmatter } = await render(post);

@@ -16,7 +16,7 @@ const post = defineCollection({
 	loader: glob({ base: "./content/posts", pattern: "**/*.{md,mdx}" }),
 	schema: ({ image }) =>
 		baseSchema.extend({
-			description: z.string(),
+			description: z.string().optional(),
 			coverImage: z
 				.object({
 					alt: z.string(),
